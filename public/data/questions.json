@@ -1,0 +1,84 @@
+{
+    "questions": [
+        {
+            "title": "How often do you use social media platforms?",
+            "type": "single_choice",
+            "answers": [
+                {
+                    "answer": "Multiple times a day",
+                    "weight": 5
+                },
+                {
+                    "answer": "Once a day",
+                    "weight": 4
+                },
+                {
+                    "answer": "2-3 times a week",
+                    "weight": 3
+                },
+                {
+                    "answer": "Rarely",
+                    "weight": 2
+                }
+            ]
+        },
+        {
+            "title": "Which social media platforms do you use most frequently?",
+            "type": "multiple_choice",
+            "answers": [
+                {
+                    "answer": "Tik Tok",
+                    "weight": 1
+                },
+                {
+                    "answer": "Reddit",
+                    "weight": 1
+                },
+                {
+                    "answer": "Instagram",
+                    "weight": 1
+                },
+                {
+                    "answer": "Facebook",
+                    "weight": 1
+                },
+                {
+                    "answer": "YouTube",
+                    "weight": 1
+                }
+            ]
+        },
+        {
+            "title": "Were you aware that using social media has a carbon footprint?",
+            "type": "single_choice",
+            "answers": [
+                {
+                    "answer": "Yes",
+                    "weight": 1
+                },
+                {
+                    "answer": "No",
+                    "weight": 1
+                }
+            ]
+        },
+        {
+            "title": "What motivated you to learn about the carbon influence of social media?",
+            "type": "multiple_choice",
+            "answers": [
+                {
+                    "answer": "Concern for environment",
+                    "weight": 1
+                },
+                {
+                    "answer": "Curiosity",
+                    "weight": 1
+                },
+                {
+                    "answer": "Media coverage",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}

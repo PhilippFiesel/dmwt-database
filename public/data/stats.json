@@ -1,0 +1,102 @@
+{
+    "stats": [
+        {
+            "title": "CO2 of social media",
+            "emmisions": [
+                {
+                    "desc": "Tik Tok",
+                    "value": 2.63
+                },
+                {
+                    "desc": "Reddit",
+                    "value": 2.48
+                },
+                {
+                    "desc": "Pinterest",
+                    "value": 1.30
+                },
+                {
+                    "desc": "Instagram",
+                    "value": 1.05
+                },
+                {
+                    "desc": "Snapchat",
+                    "value": 0.87
+                },
+                {
+                    "desc": "Facebook",
+                    "value": 0.79
+                },
+                {
+                    "desc": "LinkedIn",
+                    "value": 0.71
+                },
+                {
+                    "desc": "Twitter",
+                    "value": 0.60
+                },
+                {
+                    "desc": "Twitch",
+                    "value": 0.55
+                },
+                {
+                    "desc": "YouTube",
+                    "value": 0.46
+                }
+            ],
+            "text": "",
+            "source": "https://www.statista.com/statistics/1177323/social-media-apps-energy-consumption-milliampere-hour-france/"
+        },
+        {
+            "title": "Instagram Features",
+            "emmisions": [
+                {
+                    "desc": "Story",
+                    "value": 0.46
+                },
+                {
+                    "desc": "Photo",
+                    "value": 0.15
+                },
+                {
+                    "desc": "Feed",
+                    "value": 1.55
+                },
+                {
+                    "desc": "View Live",
+                    "value": 0.72
+                },
+                {
+                    "desc": "Host Live",
+                    "value": 0.62
+                }
+            ],
+            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
+            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+        },
+        {
+            "title": "Pinterest",
+            "emmisions": [
+                
+            ],
+            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
+            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+        },
+        {
+            "title": "Reddit",
+            "emmisions": [
+                
+            ],
+            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
+            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+        },
+        {
+            "title": "Tik Tok",
+            "emmisions": [
+                
+            ],
+            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
+            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+        }
+    ]
+}
