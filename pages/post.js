@@ -39,7 +39,16 @@ const Post = () => {
         const data = await response.json()
         console.log(JSON.stringify(data))
     }
+    /*
+    const handleDeleteLatest = async () => {
+            const response = await fetch('/api/delete-latest-pet', {
+                method: 'DELETE',
+            });
     
+            if (response.ok) {
+                mutate('/api/list-pets');
+             }
+    }*/
 
     return (
         <>
@@ -63,6 +72,11 @@ const Post = () => {
                     />
                 </div>
                 <button type='submit'>Submit</button>
+            </form>
+            <form onSubmit={handleDeleteLatest}>
+                <div>
+                    <button type='Delete'>Delete</button>
+                </div>
             </form>
             <ul>
                 {pets.map((pet, index) => (
