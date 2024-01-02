@@ -49,7 +49,7 @@ const Info = () => {
                     marginTop: "50px",
                     position: "relative",
                     left: "40px",
-                    width: "450px"
+                    width: "80%"
                 }}
             >
                     Social Media produces
@@ -63,7 +63,7 @@ const Info = () => {
                     fontWeight: "400",
                     position: "relative",
                     left: "40px",
-                    width: "480px",
+                    width: "90%",
                     marginBottom: "35px"
                 }}>
                 The use of social media 
@@ -78,7 +78,7 @@ const Info = () => {
                     fontWeight: "400",
                     position: "relative",
                     left: "40px",
-                    width: "480px",
+                    width: "90%",
                     marginBottom: "27px"
                 }}>
                 Using <span style={{color: "var(--primary)"}}>Social Media for 8 minutes </span> produces almost
@@ -91,59 +91,60 @@ const Info = () => {
                 whileHover={{scale: 1.025}}
                 transition={{duration: 0.3}}
             >
-            <h4
-            style={{
-                marginBottom: "60px",
-                marginTop: "50px",
-                position: "relative",
-                left: "40px",
-                width: "450px"
-            }}><span style={{color: "var(--neutral-text)"}}>CO<span style={{fontSize: "16px",color: "var(--neutral-text)"}}>2</span></span> per minute</h4>
+                <h4
+                style={{
+                    marginBottom: "60px",
+                    marginTop: "50px",
+                    position: "relative",
+                    left: "40px",
+                    width: "90%"
+                }}><span style={{color: "var(--neutral-text)"}}>CO<span style={{fontSize: "16px",color: "var(--neutral-text)"}}>2</span></span> per minute</h4>
 
-            <div style={{marginBottom: "67px", display: "flex"}}>
-            <img style={
-                {
-                marginLeft: "40px",
-                marginRight: "40px",
-                position: "relative",
-
-                }} src='car-front-fill.svg' />
-                <div>
-                <h4>
-                    <span style={{color: "var(--primary)"}}>10 g </span>
-                    <span style={{color: "var(--neutral-text)", fontSize: "24px"}}>CO
-                    <span style={{color: "var(--neutral-text)", fontSize: "12px"}}>2</span>/min</span>
-                </h4>
-                <h3 style={{color: "var(--neutral-text)"}}>
-                    emission for the average <span style={{color: "var(--white-text)"}}>diesel motor</span>
-                </h3>
-                </div>
-                
-            </div>
-
-            
-            <div style={{display: "flex"}}>
+                <div style={{marginBottom: "67px", display: "flex"}}>
                 <img style={
-                {
-                marginLeft: "40px",
-                marginRight: "40px",
-                position: "relative"
+                    {
+                    marginLeft: "40px",
+                    marginRight: "40px",
+                    position: "relative",
 
-                }} src='phone-fill.svg' />
-
-
-                <div>
-                <h4>
-                    <span style={{color: "var(--primary)"}}>1.14 g </span>
-                    <span style={{color: "var(--neutral-text)", fontSize: "24px"}}>CO
-                    <span style={{color: "var(--neutral-text)", fontSize: "12px"}}>2</span>/min</span>
-                </h4>
-                <h3 style={{color: "var(--neutral-text)"}}>
-                    emission for the average <span style={{color: "var(--white-text)"}}>social media app</span>
-                </h3>
+                    }} src='car-front-fill.svg'
+                />
+                    <div>
+                    <h4 style={{maxWidth: "90%"}}>
+                        <span style={{color: "var(--primary)"}}>10 g </span>
+                        <span style={{color: "var(--neutral-text)", fontSize: "24px"}}>CO
+                        <span style={{color: "var(--neutral-text)", fontSize: "12px"}}>2</span>/min</span>
+                    </h4>
+                    <h3 style={{color: "var(--neutral-text)", maxWidth: "90%"}}>
+                        emission for the average <span style={{color: "var(--white-text)"}}>diesel motor</span>
+                    </h3>
+                    </div>
+                    
                 </div>
+
                 
-            </div>
+                <div style={{display: "flex"}}>
+                    <img style={
+                    {
+                    marginLeft: "40px",
+                    marginRight: "40px",
+                    position: "relative"
+
+                    }} src='phone-fill.svg' />
+
+
+                    <div>
+                    <h4 style={{maxWidth: "90%"}}>
+                        <span style={{color: "var(--primary)"}}>1.14 g </span>
+                        <span style={{color: "var(--neutral-text)", fontSize: "24px"}}>CO
+                        <span style={{color: "var(--neutral-text)", fontSize: "12px"}}>2</span>/min</span>
+                    </h4>
+                    <h3 style={{color: "var(--neutral-text)", maxWidth: "90%"}}>
+                        emission for the average <span style={{color: "var(--white-text)"}}>social media app</span>
+                    </h3>
+                    </div>
+                    
+                </div>
 
             
             </motion.div>

@@ -1,45 +1,19 @@
 import styles from '../../styles/Home.module.css';
 import useSWR from 'swr';
 import { useState } from 'react';
+import {easeOut, motion} from "framer-motion";
 
 function maxValue(arr) {
-    let max = arr[0].value; // Annahme: Das erste Element ist das größte
+    let max = arr[0].value;
     for (let i = 1; i < arr.length; i++) {
         if (arr[i].value > max) {
-            max = arr[i].value; // Aktualisiere das Maximum, wenn ein größeres Element gefunden wird
+            max = arr[i].value;
         }
     }
-    return max; // Rückgabe des größten Elements
+    return max;
 }
 
-const bars = (value, maxValue) => {
-    const width = parseFloat(190.35 / maxValue * value.value).toFixed(2);
 
-    return (
-        <div style={
-            {
-                display: "flex",
-                height: "22.5px",
-                alignItems: "center",
-                marginBottom: "22.5px",
-                position: "relative",
-                width: "fit-content"
-            }}>
-            <div style={{
-                left: 0, width: "52px", fontSize: "11px",
-                position: "relative", left: "0px", marginRight: "15px"
-                }}>{value.desc}</div>
-
-            <div style={{
-                width: width + "px",
-                height: "22.5px",
-                backgroundColor: "var(--primary)",
-                borderRadius: "10px",
-                position: "relative"
-            }}></div>
-        </div>
-    )
-}
 
 const Phone = () => {
 
@@ -56,19 +30,23 @@ const Phone = () => {
     const stats = data.stats;
     const currentPage = stats[page];
 
-    const switchPage = (number) => {
-        const onDefaultScreen = number == 0;
+    const switchPage = (clickedButton) => {
+        const onDefaultPage = clickedButton == 0;
+        const clickOnActiveButton = clickedButton == page;
+        const defaultPage = 0;
 
-        setPage(number);
 
-        if (number == page) {
-            setPage(0);
+        setPage(clickedButton);
+
+        if (clickOnActiveButton) {
+            setPage(defaultPage);
         }
 
-        if (onDefaultScreen) {
+        if (onDefaultPage) {
+
         }
 
-        if (number > 0) {
+        if (clickedButton > 0) {
 
         }
         else {
@@ -78,45 +56,224 @@ const Phone = () => {
     }
 
     return (
-        <div className={styles.phone_container}>
-            <div style={{
-                height: "705.6px",
-                width: "368.1px",
-                background: "green",
-                borderRadius: 60,
-                border: "8px solid var(--phone-border)",
-                backgroundColor: "black",
+        <Container>
+            <PhoneBox>
 
-                boxShadow: "0 0 100px 0.5px var(--phone-blur)",
-                display: "flex",
-                justifyContent: "center",
-                position: "relative"
-            }}>
+                <Heading title={currentPage.title} />
+                <BarChart page={currentPage} />
 
-                <h3 style={{
-                    position: "absolute",
-                    left: "36px",
-                    top: "82px"
-                }}> {currentPage.title} </h3>
-
-
-                <div style={{height: "fit-content", width: "246.15px", position: "absolute", top: "146.7px", left: "50.4px"}}>
-                    {currentPage.emmisions.map( (value, index) => {
-                        if (index < 10) {
-                            return bars(value, maxValue(currentPage.emmisions));
-                        }
-                    })}
-                </div>
+                <Description text={currentPage.text} />
                 
-                <div className={styles.phone_menubar}>
-                    <div onClick={() => switchPage(1)} className={styles.appicon} style={page == 1 ? {backgroundColor: "var(--primary)"} : {backgroundColor: "#082438"}}></div>
-                    <div onClick={() => switchPage(2)} className={styles.appicon} style={page == 2 ? {backgroundColor: "var(--primary)"} : {backgroundColor: "#082438"}}></div>
-                    <div onClick={() => switchPage(3)} className={styles.appicon} style={page == 3 ? {backgroundColor: "var(--primary)"} : {backgroundColor: "#082438"}}></div>
-                    <div onClick={() => switchPage(4)} className={styles.appicon} style={page == 4 ? {backgroundColor: "var(--primary)"} : {backgroundColor: "#082438"}}></div>
-                </div>
+                <MenuBar>
+                    <Button
+                        onClick={() => switchPage(1)}
+                        page={page}
+                        id={1}
+                        icon={<InstagramIcon/>}
+                    />
 
-            </div>
+                    <Button
+                        onClick={() => switchPage(2)}
+                        page={page}
+                        id={2}
+                        icon={<PinterestIcon/>}
+                    />
+
+                    <Button
+                        onClick={() => switchPage(3)}
+                        page={page}
+                        id={3}
+                        icon={<RedditIcon/>}
+                    />
+
+                    <Button
+                        onClick={() => switchPage(4)}
+                        page={page}
+                        id={4}
+                        icon={<TikTokIcon/>}
+                    />
+                </MenuBar>
+
+            </PhoneBox>
+        </Container>
+    )
+}
+
+const Container = ({children}) => {
+    return (
+        <div className={styles.phone_container}>
+            {children}
         </div>
+    )
+}
+const PhoneBox = ({children}) => {
+    return (
+        <div style={{
+            height: "705.6px",
+            width: "368.1px",
+            background: "green",
+            borderRadius: 60,
+            border: "8px solid var(--phone-border)",
+            backgroundColor: "black",
+
+            boxShadow: "0 0 100px 0.5px var(--phone-blur)",
+            display: "flex",
+            justifyContent: "center",
+            position: "relative"
+        }}>
+            {children}
+        </div>
+    )
+}
+const Heading = ({title}) => {
+    return (
+        <h3 style={{
+                position: "absolute",
+                left: "36px",
+                top: "82px"
+            }
+        }>
+            {title}
+        </h3>
+    )
+}
+const BarChart = ({page}) => {
+    return (
+        <div
+            style={{
+                height: "fit-content",
+                width: "246.15px",
+                position: "absolute",
+                top: "146.7px",
+                left: "50.4px"
+            }}
+        >
+            {
+                page.emmisions.map( (value, index) => {
+                    if (index < 10) {
+                        return <Bar value={value} maxValue={maxValue(page.emmisions)} />
+                    }
+                })
+            }
+        </div>
+    )
+}
+const Bar = ({value, maxValue}) => {
+    const width = parseFloat(190.35 / maxValue * value.value).toFixed(2);
+
+    return (
+        <div 
+            style={{
+                display: "flex",
+                height: "22.5px",
+                alignItems: "center",
+                marginBottom: "22.5px",
+                position: "relative",
+                width: "fit-content"
+            }}
+        >
+            <div
+                style={{
+                        left: 0,
+                        width: "52px",
+                        fontSize: "11px",
+                        position: "relative",
+                        left: "0px",
+                        marginRight: "15px"
+                    }}
+            >
+                {value.desc}
+            </div>
+
+            <motion.div
+                style={{
+                    width: width + "px",
+                    height: "22.5px",
+                    background: "linear-gradient(to right, rgba(33, 242, 103), rgb(24, 160, 251))",
+                    backgroundSize: "190.35px",
+                    borderRadius: "10px",
+                    position: "relative"
+                }}
+                whileHover={{
+                    filter: "brightness(0.5)",
+                    background: "linear-gradient(to right, rgb(24, 160, 251), rgba(33, 242, 103))",
+                    backgroundSize: "190.35px",
+                    scaleX: 1.1,
+                    x: width*0.05,
+                    transition: {
+                        duration: 0.3,
+                    }
+                }}
+            />
+        </div>
+    )
+}
+const MenuBar = ({children}) => {
+    return (
+        <div className={styles.phone_menubar}>
+            {children}
+        </div>
+    )
+}
+const Button = ({onClick, page, id, icon}) => {
+    return (
+        <div 
+            onClick={onClick}
+            className={styles.appicon}
+            style={
+                page == id ?
+                {
+                    backgroundColor: "var(--primary)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }
+                :
+                {
+                    backgroundColor: "#082438",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }
+            }
+        >
+            {icon}
+        </div>
+    )
+}
+const Description = ({text}) => {
+    return (
+        <motion.div
+            style={{
+                width: "297px",
+                height: "108px",
+                position: "absolute",
+                bottom: "210px",
+                fontWeight: 200
+            }}
+        >
+            {text}
+        </motion.div>
+    )
+}
+const InstagramIcon = () => {
+    return (
+        <img src='instagram.svg'/>
+    )
+}
+const PinterestIcon = () => {
+    return (
+        <img src='pinterest.svg'/>
+    )
+}
+const RedditIcon = () => {
+    return (
+        <img src='reddit.svg'/>
+    )
+}
+const TikTokIcon = () => {
+    return (
+        <img src='tiktok.svg'/>
     )
 }
 

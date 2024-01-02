@@ -75,28 +75,77 @@
             "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
         },
         {
-            "title": "Pinterest",
+            "title": "Pinterest Features",
             "emmisions": [
-                
+				{
+					"desc": "Pin",
+					"value": 0.18
+				},
+				{
+					"desc": "Board",
+					"value": 0.42
+				},
+				{
+					"desc": "Explore",
+					"value": 1.65
+				},
+				{
+					"desc": "Story",
+					"value": 0.27
+				},
+				{
+					"desc": "Shopping",
+					"value": 0.47
+				}
             ],
-            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
-            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+            "text": "Scrolling through Pinterest's diverse Pins and Boards results in higher CO2 emissions compared to creating or engaging with individual Pins.",
+            "source": ""
         },
         {
-            "title": "Reddit",
+            "title": "Reddit Features",
             "emmisions": [
-                
+				{
+					"desc": "Subreddit",
+					"value": 0.46
+				},
+				{
+					"desc": "Post",
+					"value": 0.15
+				},
+				{
+					"desc": "Votes",
+					"value": 0.05
+				},
+				{
+					"desc": "Comment",
+					"value": 0.12
+				}
             ],
-            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
-            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+            "text": "Browsing through various Subreddits on Reddit contributes to increased CO2 emissions compared to participating in Upvotes/Downvotes or engaging in discussions.",
+            "source": ""
         },
         {
-            "title": "Tik Tok",
+            "title": "Tik Tok Features",
             "emmisions": [
-                
+				{
+					"desc": "Video",
+					"value": 0.36
+				},
+				{
+					"desc": "Hashtag",
+					"value": 0.09
+				},
+				{
+					"desc": "Duet",
+					"value": 1.47
+				},
+				{
+					"desc": "Discover",
+					"value": 1.53
+				}
             ],
-            "text": "Scrolling on Instagram causes higher CO2 emissions compared to watching or hosting live content.",
-            "source": "https://www.statista.com/statistics/1177040/carbon-emissions-instagram-desc-usage-grams-co2-equivalent-france/"
+            "text": "Actively scrolling through various TikTok videos leads to higher CO2 emissions compared to participating in Duets or exploring content through the Discover feature.",
+            "source": ""
         }
     ]
 }

@@ -19,6 +19,10 @@
                 {
                     "answer": "Rarely",
                     "weight": 2
+                },
+                {
+                    "answer": "Never",
+                    "weight": 1
                 }
             ]
         },
@@ -43,7 +47,7 @@
                     "weight": 1
                 },
                 {
-                    "answer": "YouTube",
+                    "answer": "None",
                     "weight": 1
                 }
             ]

@@ -11,7 +11,10 @@ import Questioneer from './components/questioneer';
 export default function Home() {
   return (
     <>
-      <div className={styles.hero}>
+      <div className={styles.hero}
+          style={{
+            textAlign: "center"
+          }}>
 
         <motion.h1
           initial={{
