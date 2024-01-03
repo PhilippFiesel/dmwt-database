@@ -94,7 +94,6 @@ const Navigation = () => {
                 animate={{
                   scale: current === clicked ? 1.2 : 1,
                   width: inSmallLayout ? 52 : 150,
-                  height: inSmallLayout ? 52 : 150,
                   transition: {duration: 0.3},
                 }}
               >
@@ -109,10 +108,6 @@ const Navigation = () => {
                     }}
                     transition={{
                       duration: 0.4
-                    }}
-                    style={{
-                      color: current === clicked ? "var(--primary)" : "var(--neutral-text)",
-                      opacity: 0
                     }}
                   >
                     {button.description}
