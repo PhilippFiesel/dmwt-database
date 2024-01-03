@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from '../../styles/Home.module.css';
-import {easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
+import {delay, easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
 
 var weight = 0;
 var answerAnimation;
@@ -20,11 +20,12 @@ const Questioneer = () => {
     const [fadeInAnimation, setFadeInAnimation] = useState(false);
 
     const [submitAnimation, setSubmitAnimation] = useState(false);
-
+    const [submitted, setSubmit] = useState(false);
+    const [successfulTransfer, setSuccessfulTransfer] = useState(false);
+;
     if (!data) return <div>NULL</div>; // TODO maybe loading screen?
     const {title: questionTitle, type: questionType} = data.questions[currentPage];
 
-    var submitted = false;
 
     const switchPage = (type) => {
         const nextExists = !submitted && type == "next" && currentPage < data.questions.length - 1;
@@ -72,8 +73,9 @@ const Questioneer = () => {
     
             else if (onLastPage) {
                 // submit to database
-                submitted = true;
-                handleSubmit(weight);
+                console.log("submitted");
+                setSubmit(true);
+                handleSubmit(weight, setSuccessfulTransfer);
             }
         }
         else {
@@ -94,13 +96,18 @@ const Questioneer = () => {
     return (
         <Container>
             <QuestioneerBox>
-                
+                <motion.div animate={{
+                    opacity: submitted ? 0 : 1
+                }}
+                transition={{
+                    duration: 0.1
+                }}
+                >
                 <Heading 
                     text={questionTitle}
                     fadeInAnimation={fadeInAnimation}
                     fadeOutAnimation={fadeOutAnimation}
                 />
-                <div>
                 {
                     answers.map((button, buttonID) => {
                         var isActive = active[currentPage][buttonID];
@@ -177,7 +184,6 @@ const Questioneer = () => {
                         );
                     })
                 }
-                </div>
                 
 
                 <QuestionNavigation>
@@ -192,11 +198,13 @@ const Questioneer = () => {
                         submitAnimation={submitAnimation}
                     />
                 </QuestionNavigation>
-
+                </motion.div>
                 
                 <PageIndicator
                     currentPage={currentPage+1}
                     amountPages={data.questions.length}
+                    submitted={submitted}
+                    successfulTransfer={successfulTransfer}
                 />
 
             </QuestioneerBox>
@@ -438,45 +446,77 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
         </motion.div>
     )
 }
-const PageIndicator = ({currentPage, amountPages}) => {
+const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}) => {
+
+    console.log("submitteddsfsdfds", submitted);
 
     const relation = ((currentPage) / amountPages)*-1;
 
     return (
-        <svg viewBox="0 0 52 52" width="52" height="52"
+        <motion.div
             style={{
                 position: "absolute",
                 bottom: 30,
                 right: "10%",
-                transform: "rotate(90deg)"
+                rotate: 90,
+                width: "52px",
+                height: "52px",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
             }}
-        >
-            <path
-                d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
-                fill="none"
-                strokeWidth="6"
-                stroke="var(--box-fill-bright)"
-                strokeLinecap="round"
-            />
-            <motion.path
-                d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
-                fill="none"
-                strokeWidth="6"
-                stroke="var(--primary)"
-                strokeLinecap="round"
-                animate={{
-                    strokeDashoffset: 122.3 - 122.3 * relation, // 25 %
-                    strokeDasharray: 122.3, // 122.3
-
-                    transition: {
-                        ease: easeOut,
-                        duration: 0.3
+            animate={
+                submitted ?
+                {
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    scale: 1,
+                    transition:{
+                        duration: 0.4,
+                        ease: easeOut
                     }
+                }
+                : {}
+            }
+        >
+            <svg width="52" height="52">
+                <path
+                    d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
+                    fill="none"
+                    strokeWidth="6"
+                    stroke="var(--box-fill-bright)"
+                    strokeLinecap="round"
+                />
+                <motion.path
+                    d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
+                    fill="none"
+                    strokeWidth="6"
+                    stroke="var(--primary)"
+                    strokeLinecap="round"
+                    animate={{
+                        strokeDashoffset: 122.3 - 122.3 * relation,
+                        strokeDasharray: 122.3, // 100%
+
+                        transition: {
+                            ease: easeOut,
+                            duration: 0.3
+                        }
+                    }}
+                    
+                />
+            </svg>
+            <motion.svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute'}}>
+                <motion.path d="M2 11  L8 17  L21 2" 
+                animate={successfulTransfer ? {pathLength: 1, opacity: 1} : {pathLength: 0, opacity: 0}}
+                transition={{
+                    duration: 0.375,
+                    delay: 0.45
                 }}
-                
-            />     
-        </svg>
-        
+                stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </motion.svg>
+
+        </motion.div>
     )
 }
 const ArrowRight = ({errorState, submitAnimation}) => {
@@ -523,12 +563,13 @@ const ArrowLeft = () => {
 
 
 // database submit
-const handleSubmit = async (weight) => {
+const handleSubmit = async (weight, setSuccessfulTransfer) => {
 
     await fetch('/api/add-questioneerresult', {
         method: 'POST',
         body: JSON.stringify({ result: weight })
     });
+    setSuccessfulTransfer(true);
 }
 
 export default Questioneer;
