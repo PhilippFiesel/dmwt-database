@@ -151,7 +151,7 @@ const BarChart = ({page}) => {
             {
                 page.emmisions.map( (value, index) => {
                     if (index < 10) {
-                        return <Bar value={value} maxValue={maxValue(page.emmisions)} />
+                        return <Bar value={value} maxValue={maxValue(page.emmisions)} key={index}/>
                     }
                 })
             }

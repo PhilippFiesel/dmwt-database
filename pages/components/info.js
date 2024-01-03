@@ -40,8 +40,6 @@ const Info = () => {
         <motion.div className={styles.info_container} 
         >
             <motion.div className={styles.info_box}
-                whileHover={{scale: 1.025}}
-                transition={{duration: 0.3}}
             >
 
             <motion.h4 style={{
@@ -88,8 +86,6 @@ const Info = () => {
 
 
             <motion.div className={styles.info_box}
-                whileHover={{scale: 1.025}}
-                transition={{duration: 0.3}}
             >
                 <h4
                 style={{
