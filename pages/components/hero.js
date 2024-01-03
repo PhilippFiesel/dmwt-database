@@ -4,21 +4,16 @@ import { MotionConfig, MotionValue, easeInOut, easeOut, motion } from "framer-mo
 const Hero = () => {
     return (
         <div className={styles.hero}>
-        <MotionConfig
-            animate={{
-                scale: [1.6,0.95,1],
-                opacity: [0,1],
-                y: [10,0]
-            }}
-            transition={{
-                ease: easeOut
-            }}
-        >
-
             <motion.h1
                 style={{opacity: 1, textAlign: "center"}}
                 transition={{
                     duration: 0.7,
+                    ease: easeOut
+                }}
+                animate={{
+                    scale: [1.6,0.95,1],
+                    opacity: [0,1],
+                    y: [10,0]
                 }}
             >
                 Social Media
@@ -28,7 +23,13 @@ const Hero = () => {
                 style={{opacity: 1, textAlign: "center"}}
                 transition={{
                     duration: 0.5,
-                    delay: 0.15
+                    delay: 0.15,
+                    ease: easeOut
+                }}
+                animate={{
+                    scale: [1.6,0.95,1],
+                    opacity: [0,1],
+                    y: [10,0]
                 }}
             >
                 Your click, your responsiblity
@@ -38,13 +39,17 @@ const Hero = () => {
                 style={{opacity: 1, textAlign: "center"}}
                 transition={{
                     duration: 0.6,
-                    delay: 0.175
+                    delay: 0.175,
+                    ease: easeOut
+                }}
+                animate={{
+                    scale: [1.6,0.95,1],
+                    opacity: [0,1],
+                    y: [10,0]
                 }}
             >
                 discover the carbon impact of social media
             </motion.h3>
-
-      </MotionConfig>
       </div>
     )
 }
