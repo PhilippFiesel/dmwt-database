@@ -53,7 +53,7 @@
             ]
         },
         {
-            "title": "Were you aware that using social media has a carbon footprint?",
+            "title": "Did you know social media has a carbon footprint?",
             "type": "single_choice",
             "answers": [
                 {
@@ -67,7 +67,7 @@
             ]
         },
         {
-            "title": "What motivated you to learn about the carbon influence of social media?",
+            "title": "What awoke your interest in social media carbon impact?",
             "type": "multiple_choice",
             "answers": [
                 {

@@ -61,7 +61,7 @@ const Info = () => {
                     fontWeight: "400",
                     position: "relative",
                     left: "40px",
-                    width: "90%",
+                    width: "80%",
                     marginBottom: "35px"
                 }}>
                 The use of social media 
@@ -76,7 +76,7 @@ const Info = () => {
                     fontWeight: "400",
                     position: "relative",
                     left: "40px",
-                    width: "90%",
+                    width: "80%",
                     marginBottom: "27px"
                 }}>
                 Using <span style={{color: "var(--primary)"}}>Social Media for 8 minutes </span> produces almost
@@ -93,10 +93,10 @@ const Info = () => {
                     marginTop: "50px",
                     position: "relative",
                     left: "40px",
-                    width: "90%"
+                    width: "80%"
                 }}><span style={{color: "var(--neutral-text)"}}>CO<span style={{fontSize: "16px",color: "var(--neutral-text)"}}>2</span></span> per minute</h4>
 
-                <div style={{marginBottom: "67px", display: "flex"}}>
+                <div style={{marginBottom: "60px", display: "flex"}}>
                 <img style={
                     {
                     marginLeft: "40px",
@@ -130,7 +130,7 @@ const Info = () => {
 
 
                     <div>
-                    <h4 style={{maxWidth: "90%"}}>
+                    <h4 style={{maxWidth: "80%"}}>
                         <span style={{color: "var(--primary)"}}>1.14 g </span>
                         <span style={{color: "var(--neutral-text)", fontSize: "24px"}}>CO
                         <span style={{color: "var(--neutral-text)", fontSize: "12px"}}>2</span>/min</span>

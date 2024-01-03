@@ -128,7 +128,7 @@
 
 .questioneer_heading {
   position: relative;
-  left: 7.5%;
+  left: 5%;
   top: 35px;
   margin-bottom: 25px;
   height: 25px;
@@ -176,9 +176,8 @@
   bottom: 42px;
   right: 47px;
 
-
-  width: fit-content;
-  height: fit-content;
+  width: 52px;
+  height: 52px;
 
   text-align: center;
   display: flex;
@@ -187,7 +186,7 @@
 .questioneer_buttons {
   display: flex;
   width: fit-content;
-  left: 80px;
+  left: 10%;
   position: absolute;
   bottom: 30px;
 }

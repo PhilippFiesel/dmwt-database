@@ -1,10 +1,12 @@
 import useSWR from 'swr';
-import { useState } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from '../../styles/Home.module.css';
 import {easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
 
 var weight = 0;
 var answerAnimation;
+var width = 0;
+
 
 const Questioneer = () => {
     // fetching questioneer data from json
@@ -33,7 +35,6 @@ const Questioneer = () => {
 
             active[currentPage].map( (value, index) => {
                 if (value == true) {
-                    // sumWeight = sumWeight + data.questions[page].answers[index].weight;
                     valueFound = true;
                 }
             } );
@@ -86,6 +87,7 @@ const Questioneer = () => {
             active[i] = [];
         }
     }
+
 
     const answers = data.questions[currentPage].answers;
 
@@ -156,6 +158,8 @@ const Questioneer = () => {
                                 fadeOutAnimation={fadeOutAnimation}
                                 setFadeInAnimation={setFadeInAnimation}
                                 setFadeOutAnimation={setFadeOutAnimation}
+
+                                width={width}
 
                                 key={buttonID}
                             >
@@ -239,7 +243,7 @@ const Heading = ({text, fadeInAnimation, fadeOutAnimation}) => {
         </motion.h3>
     )
 }
-const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, setFadeInAnimation, setFadeOutAnimation}) => {
+const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, setFadeInAnimation, setFadeOutAnimation, width}) => {
 
     const fadeOut = {
         animate: {
@@ -254,13 +258,13 @@ const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, set
             setFadeInAnimation(true);
         }
     }
-
+    console.log("aniwidth", -50*width/415);
     const fadeIn = {
         animate: {
             y: [- 65 * index, 6, 0],
-            opacity: [0,1],
-            scale: [0.8,1,1],
-            x: [-65,0,0]
+            opacity: [0,0.5,1],
+            scale: [0.7,1,1],
+            x: ["-12%","0%","0%"]
         },
         transition: {
             duration: 0.55,
@@ -333,7 +337,6 @@ const AnswerText = ({index, text, activeState, fadeOutAnimation, setFadeOutAnima
                 activeState === true ?
                 {
                     color: "var(--secondary)",
-                    x: [0,10,0],
                     scale: [1, 1.025, 1]
                 }
                     : 
@@ -391,9 +394,8 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
             animate={
                 submitAnimation == true ?
                 {
-                    x: [0, 80, 85, 80],
                     backgroundColor: "var(--secondary)",
-                    width: [52, 155, 145],
+                    width: [52, 145, 135],
                     transition: {
                         duration: 0.6,
                         ease: easeOut
@@ -437,10 +439,44 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
     )
 }
 const PageIndicator = ({currentPage, amountPages}) => {
+
+    const relation = ((currentPage) / amountPages)*-1;
+
     return (
-        <div className={styles.currentPageIndex}>
-            {currentPage} / {amountPages}
-        </div>
+        <svg viewBox="0 0 52 52" width="52" height="52"
+            style={{
+                position: "absolute",
+                bottom: 30,
+                right: "10%",
+                transform: "rotate(90deg)"
+            }}
+        >
+            <path
+                d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
+                fill="none"
+                strokeWidth="6"
+                stroke="var(--box-fill-bright)"
+                strokeLinecap="round"
+            />
+            <motion.path
+                d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
+                fill="none"
+                strokeWidth="6"
+                stroke="var(--primary)"
+                strokeLinecap="round"
+                animate={{
+                    strokeDashoffset: 122.3 - 122.3 * relation, // 25 %
+                    strokeDasharray: 122.3, // 122.3
+
+                    transition: {
+                        ease: easeOut,
+                        duration: 0.3
+                    }
+                }}
+                
+            />     
+        </svg>
+        
     )
 }
 const ArrowRight = ({errorState, submitAnimation}) => {
