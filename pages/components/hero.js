@@ -5,11 +5,11 @@ const Hero = () => {
     return (
         <div className={styles.hero}>
         <MotionConfig
-            /*animate={{
+            animate={{
                 scale: [1.6,0.95,1],
                 opacity: [0,1],
                 y: [10,0]
-            }}*/
+            }}
             transition={{
                 ease: easeOut
             }}
