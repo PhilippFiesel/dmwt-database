@@ -65,6 +65,18 @@ h4 {
   font-weight: 400;
 }
 
+
+#open-modal-rectangle {
+  position: absolute;
+  border-radius: 52px;
+  background-color: var(--secondary);
+  cursor: pointer; 
+  right: 0px;
+  width: 163px;
+  height: 44px;
+  margin-right: 5%;
+}
+
 #modal-overlay{
   background: #161616;
   padding: 20px;
@@ -73,19 +85,8 @@ h4 {
   width: 376px;
   position: absolute;
   bottom: 60px;
-  right: 60px;
-
+  right: 0px;
   border: 1px solid #37383C;
-}
-
-#open-modal-rectangle {
-  position: relative;
-  border-radius: 52px;
-  background-color: var(--secondary);
-  cursor: pointer; 
-
-  width: 163px;
-  height: 44px;
 }
 
 #message{

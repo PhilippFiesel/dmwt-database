@@ -1,5 +1,23 @@
+import styles from '../../styles/Home.module.css'; 
+
 import React, { useState } from 'react';
 import useSWR from 'swr';
+
+const Footer = () => {
+  return (
+    <>
+    <div className={styles.FooterLine}></div>
+    <div className={styles.FooterContainer}>
+      <div style={{display: 'flex', width: 1100, height: '100px', alignItems: 'center', position: 'relative', marginLeft: '10px', marginRight: '10px'}}>
+         <div className={styles.FooterText}>© 2023 Dennis Messmer • Philipp Fiesel</div>
+         <ContactForm />
+      </div>
+     
+    </div>
+    </>
+    
+  );
+};
 
 const fetcher = url => fetch(url).then(res => res.json())
 
@@ -52,7 +70,7 @@ const ContactForm = () => {
     }
     return (
         <>
-            <div id="open-modal-rectangle" onClick={() => setModalOpen(true)}>Open: </div>
+            <div id="open-modal-rectangle" onClick={() => setModalOpen(true)}>Open</div>
             {isModalOpen && (
                 <div id="modal-overlay">
                     <form onSubmit={handleSubmit}>
@@ -100,4 +118,4 @@ const ContactForm = () => {
     )
 }
 
-export default ContactForm;
+export default Footer;
