@@ -573,7 +573,7 @@ const ArrowLeft = () => {
 // database submit
 const handleSubmit = async (weight, setSuccessfulTransfer) => {
 
-    await fetch('/api/add-questioneerresult', {
+    await fetch('../api/questioneerresult', {
         method: 'POST',
         body: JSON.stringify({ result: weight })
     });

@@ -89,7 +89,8 @@ const Form = ({setFormOpen}) => {
     const [firstname, setFirstName] = useState("");
     const [message, setMessage]     = useState("");
 
-    useSWR('/api/list-contactForm', {
+    useSWR('../api/contactForm', {
+        method: 'GET',
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
@@ -104,7 +105,7 @@ const Form = ({setFormOpen}) => {
             message: message
         }
     
-        await fetch('../api/add-contactForm', {
+        await fetch('../api/contactForm', {
             method: 'POST',
             body: JSON.stringify(newContact)
         });
