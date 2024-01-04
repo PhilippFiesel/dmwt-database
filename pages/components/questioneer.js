@@ -16,7 +16,6 @@ const Questioneer = () => {
     const [nextError, setNextError] = useState(false); // error states
 
     const [fadeOutAnimation, setFadeOutAnimation] = useState(false);
-    const [fadeInAnimation, setFadeInAnimation] = useState(false);
 
     const [submitAnimation, setSubmitAnimation] = useState(false);
     const [submitted, setSubmit] = useState(false);
@@ -103,7 +102,6 @@ const Questioneer = () => {
                 >
                 <Heading 
                     text={questionTitle}
-                    fadeInAnimation={fadeInAnimation}
                     fadeOutAnimation={fadeOutAnimation}
                 />
                 {
@@ -157,11 +155,8 @@ const Questioneer = () => {
                             <Answers 
                                 activeState={active[currentPage][buttonID]}
                                 index={buttonID}
-                                count={data.questions[currentPage].answers.length}
 
-                                fadeInAnimation={fadeInAnimation}
                                 fadeOutAnimation={fadeOutAnimation}
-                                setFadeInAnimation={setFadeInAnimation}
                                 setFadeOutAnimation={setFadeOutAnimation}
 
                                 width={width}
@@ -227,7 +222,7 @@ const QuestioneerBox = ({children}) => {
         </motion.div>
     )
 }
-const Heading = ({text, fadeInAnimation, fadeOutAnimation}) => {
+const Heading = ({text, fadeOutAnimation}) => {
     return (
         <motion.h3
             className={styles.questioneer_heading}
@@ -249,7 +244,7 @@ const Heading = ({text, fadeInAnimation, fadeOutAnimation}) => {
         </motion.h3>
     )
 }
-const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, setFadeInAnimation, setFadeOutAnimation, width}) => {
+const Answers = ({index, children, fadeOutAnimation, setFadeOutAnimation}) => {
 
     const fadeOut = {
         animate: {

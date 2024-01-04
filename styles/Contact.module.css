@@ -4,7 +4,7 @@
     background: linear-gradient(to right, var(--primary), var(--secondary));
     cursor: pointer; 
     right: 0px;
-    width: 163px;
+    width: 160px;
     height: 44px;
     margin-right: 5%;
 
@@ -86,4 +86,20 @@
     z-index: 1;
     left: 0;
     top: 0;
+}
+
+.MenuButton {
+    width: 44px;
+    height: 44px;
+    border-radius: 44px;
+    background-color: black;
+    position: absolute;
+    right: 0;
+    margin-right: 5%;
+    border: 2px solid var(--box-fill-bright);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-size-adjust: auto;
 }

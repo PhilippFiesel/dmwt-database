@@ -4,7 +4,7 @@ import styles from '../../styles/Home.module.css';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-import { motion } from 'framer-motion';
+import { delay, easeIn, easeInOut, easeOut, motion } from 'framer-motion';
 
 const Footer = () => {
     const [formOpen, setFormOpen] = useState(false);
@@ -43,27 +43,6 @@ const Footer = () => {
     
   );
 };
-
-
-const Contact = ({formOpen, setFormOpen}) => {
-
-    return (
-        <>
-            {
-                formOpen ?
-                <Form
-                    setFormOpen={setFormOpen}
-                />
-                :
-                <ContactButton 
-                    text="Contact Us"
-                    onClick={() => setFormOpen(true)}
-                />
-            }
-        </>
-    )
-}
-
 const BlurryBackground = ({setFormOpen}) => {
     return (
         <motion.div
@@ -73,13 +52,108 @@ const BlurryBackground = ({setFormOpen}) => {
     )
 }
 
-const ContactButton = ({text, onClick}) => {
+
+const Contact = ({formOpen, setFormOpen}) => {
+    const [menu, toggleMenu] = useState(false);
+
+
+
+    return (
+        <>
+            {
+                formOpen ?
+                <Form
+                    setFormOpen={setFormOpen}
+                />
+                :
+                <>
+                
+                    <EmailButton menuState={menu} />
+                    <FormButton menuState={menu} setFormOpen={setFormOpen}/>
+                    
+                    <ContactButton
+                        text="Contact"
+                        onClick={() => toggleMenu(!menu)}
+                        menuState={menu}
+                    />
+                </>
+            }
+        </>
+    )
+}
+
+
+
+
+
+
+
+const EmailButton = ({menuState}) => {
+    return (
+        <motion.button 
+            className={contactCSS.MenuButton}
+            animate={menuState ? {x: -118}:{}}
+            transition={{
+                duration: 0.4,
+                delay: 0.075,
+                ease: easeOut
+            }}
+
+            onClick={() => window.location.href = `mailto:${"dennis.messmer@student.reutlingen-university.de,philipp.fiesel@student.reutlingen-university.de"}`}
+        >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.0557836 3.99987C0.283196 2.99794 1.17925 2.25 2.25 2.25H15.75C16.8207 2.25 17.7168 2.99794 17.9442 3.99987L9 9.46578L0.0557836 3.99987ZM0 5.28422V13.2757L6.52859 9.27392L0 5.28422ZM7.60658 9.93268L0.215855 14.4629C0.57668 15.2238 1.35189 15.75 2.25 15.75H15.75C16.6481 15.75 17.4233 15.2238 17.7841 14.4629L10.3934 9.93268L9 10.7842L7.60658 9.93268ZM11.4714 9.27392L18 13.2757V5.28422L11.4714 9.27392Z" fill="white"/>
+            </svg>
+        </motion.button>
+    )
+}
+const FormButton = ({menuState,setFormOpen}) => {
+    return (
+        <motion.button
+            animate={menuState ? {x: -59}:{}}
+            className={contactCSS.MenuButton}
+            onClick={() => setFormOpen(true)}
+            transition={{
+                delay: 0.075,
+                duration: 0.4,
+                ease: easeOut
+            }}
+        >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 2C16 0.895431 15.1046 0 14 0H2C0.895431 0 0 0.895431 0 2V10C0 11.1046 0.895431 12 2 12H11.5858C11.851 12 12.1054 12.1054 12.2929 12.2929L15.1464 15.1464C15.4614 15.4614 16 15.2383 16 14.7929V2ZM3.5 3H12.5C12.7761 3 13 3.22386 13 3.5C13 3.77614 12.7761 4 12.5 4H3.5C3.22386 4 3 3.77614 3 3.5C3 3.22386 3.22386 3 3.5 3ZM3.5 5.5H12.5C12.7761 5.5 13 5.72386 13 6C13 6.27614 12.7761 6.5 12.5 6.5H3.5C3.22386 6.5 3 6.27614 3 6C3 5.72386 3.22386 5.5 3.5 5.5ZM3.5 8H8.5C8.77614 8 9 8.22386 9 8.5C9 8.77614 8.77614 9 8.5 9H3.5C3.22386 9 3 8.77614 3 8.5C3 8.22386 3.22386 8 3.5 8Z" fill="white"/>
+            </svg>
+        </motion.button>
+    )
+}
+const ContactButton = ({text, onClick, menuState}) => {
+    
+
     return (
         <motion.button
             className={contactCSS.ContactButton}
             onClick={onClick}
+            animate={{
+                width: menuState ? [160,44,44,44] : "",
+                x: menuState ? [0,5,0,0] : "",
+                transition: {
+                    duration: menuState ? 0.8 : 0.4,
+                    ease: menuState ? easeOut : easeInOut
+                }
+            }}
+            
         >
-            {text}
+            {
+                menuState ? 
+                <ArrowRight menuState={menuState}/>
+                :
+                <motion.div
+                    animate={{opacity:[0,1]}}
+                    transition={{duration: 0.3}}
+                >
+                    {text}
+                </motion.div>
+            }
+
         </motion.button>
     )
 }
@@ -90,7 +164,6 @@ const Form = ({setFormOpen}) => {
     const [message, setMessage]     = useState("");
 
     useSWR('../api/contactForm', {
-        method: 'GET',
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
@@ -113,7 +186,11 @@ const Form = ({setFormOpen}) => {
     }
 
     return (
-        <motion.div className={contactCSS.Form}>
+        <motion.div 
+            className={contactCSS.Form}
+            animate={{opacity:[0,1]}}
+            transition={{duration: 0.3}}
+        >
 
             <ExitButton setFormOpen={setFormOpen}/>
 
@@ -189,8 +266,13 @@ const ExitButton = ({setFormOpen}) => {
         </button>
     )
 }
+const ArrowRight = ({menuState}) => {
 
-
-
-
+        return (
+            <motion.svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" animate={{opacity:[0,1]}}
+            transition={{duration: 0.3}}>
+                <path fillRule="evenodd" clipRule="evenodd" d="M11 22C11 21.2406 11.6156 20.625 12.375 20.625H28.3055L22.4027 14.7223C21.8658 14.1853 21.8658 13.3147 22.4027 12.7777C22.9397 12.2408 23.8103 12.2408 24.3473 12.7777L32.5973 21.0277C33.1342 21.5647 33.1342 22.4353 32.5973 22.9723L24.3473 31.2223C23.8103 31.7592 22.9397 31.7592 22.4027 31.2223C21.8658 30.6853 21.8658 29.8147 22.4027 29.2777L28.3055 23.375H12.375C11.6156 23.375 11 22.7594 11 22Z" fill="white"/>
+            </motion.svg>
+        )
+}
 export default Footer;
