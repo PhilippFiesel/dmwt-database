@@ -1,0 +1,87 @@
+.ContactButton {
+    position: absolute;
+    border-radius: 52px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    cursor: pointer; 
+    right: 0px;
+    width: 163px;
+    height: 44px;
+    margin-right: 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-shadow: 0px 0px 16px black;
+    border: none;
+}
+
+.Form {
+    background: #161616;
+    border-radius: 30px;
+    height: 325px;
+    width: 100%;
+    bottom: 60px;
+    border: 1px solid #37383C;
+    z-index: 1;
+    max-width: 415px;
+    left: 50%;
+    bottom: 125px;
+    transform: translateX(-50%);
+    position: absolute;
+}
+
+.Heading {
+    margin-bottom: 20px;
+    margin-top: 25px;
+    margin-left: 25px;
+    width: fit-content;
+    height: 25px;
+}
+
+.SubmitButton {
+    width: 80px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: var(--secondary); 
+    cursor: pointer; 
+    border: none;
+    position: absolute;
+    right: 10%;
+    bottom: 25px;
+}
+
+.TextField {
+    border: none;
+    width: 80%;
+    height: 30px;
+    margin-bottom: 15px;
+    background-color: var(--box-fill-bright);
+    border-radius: 30px;
+    text-indent: 25px;
+    margin-left: 10%;
+}
+
+.ExitButton {
+    width: 25px;
+    height: 25px;
+    background-color: var(--box-fill-bright);
+
+    position: absolute;
+
+    right: 25px;
+    top: 25px;
+
+    border: none;
+    cursor: pointer;
+}
+
+.BlurryBackground {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px);
+    background-color: rgba(0,0,0, 0.7);
+    position: fixed;
+    left: 0;
+    top: 0;
+}

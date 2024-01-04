@@ -1,131 +1,194 @@
+import contactCSS from '../../styles/Contact.module.css'; 
 import styles from '../../styles/Home.module.css'; 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
-const Footer = () => {
-  return (
-    <>
-    <div className={styles.FooterLine}/>
-    <div className={styles.FooterContainer}>
+import { motion } from 'framer-motion';
 
-        <div 
-            style={{
-                display: 'flex',
-                width: "1100px", 
-                height: '100px', 
-                alignItems: 'center',
-                position: 'relative'
-            }}
-        >   
-            <div className={styles.FooterText}>
-                © 2023 Dennis Messmer • Philipp Fiesel
+const Footer = () => {
+    const [formOpen, setFormOpen] = useState(false);
+
+    useEffect(() => {
+        if (formOpen) {
+            document.body.style.overflow = "hidden";
+        }
+        else {
+            document.body.style.overflow = "auto"
+        }
+    })
+
+    return (
+        <>
+        {formOpen ? <BlurryBackground/> : <></>}
+        <div className={styles.FooterLine}/>
+        <div className={styles.FooterContainer}>
+
+            <div 
+                style={{
+                    display: 'flex',
+                    width: "1100px", 
+                    height: '100px', 
+                    alignItems: 'center',
+                    position: 'relative'
+                }}
+            >   
+                <div className={styles.FooterText}>
+                    © 2023/2024 Copyright<br/>Dennis Messmer<br/>Philipp Fiesel
+                </div>
+                <Contact formOpen={formOpen} setFormOpen={setFormOpen} />
             </div>
-            <ContactForm />
         </div>
-    </div>
-    </>
+        </>
     
   );
 };
 
-const fetcher = url => fetch(url).then(res => res.json())
 
-const ContactForm = () => {
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [firstname, setFirstName] = useState('');
-    const [message, setMessage] = useState('');
-    const [isModalOpen, setModalOpen] = useState(false);
+const Contact = ({formOpen, setFormOpen}) => {
 
-    const {
-        isLoading,
-        isError: error,
-        mutate
-    } = useSWR('/api/list-contactForm', fetcher, {
+    return (
+        <>
+            {
+                formOpen ?
+                <Form
+                    setFormOpen={setFormOpen}
+                />
+                :
+                <ContactButton 
+                    text="Contact Us"
+                    onClick={() => setFormOpen(true)}
+                />
+            }
+        </>
+    )
+}
+
+const BlurryBackground = () => {
+    return (
+        <motion.div
+            className={contactCSS.BlurryBackground}
+        />
+    )
+}
+
+const ContactButton = ({text, onClick}) => {
+    return (
+        <motion.button
+            className={contactCSS.ContactButton}
+            onClick={onClick}
+        >
+            {text}
+        </motion.button>
+    )
+}
+const Form = ({setFormOpen}) => {
+    const [email, setEmail]         = useState("");
+    const [lastname, setLastname]           = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [message, setMessage]     = useState("");
+
+    useSWR('/api/list-contactForm', {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
-
-    if (error) {
-        return <p>Failed to fetch</p>
-    }
-
-    if (isLoading) {
-        return <p>Loading Contact....</p>
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newContact = {
             email: email,
-            name: name,
+            name: lastname,
             firstname: firstname,
-            message: message,
-        };
-
-        await fetch('/api/add-contactForm', {
+            message: message
+        }
+    
+        await fetch('../api/add-contactForm', {
             method: 'POST',
             body: JSON.stringify(newContact)
         });
-
-
-        mutate();
-        setEmail('');
-        setName('');
-        setFirstName('');
-        setMessage('');
-        setModalOpen(false);
+        console.log(newContact, "submitted");
     }
+
     return (
-        <>
-            <div id="open-modal-rectangle" onClick={() => setModalOpen(true)}>Open</div>
-            {isModalOpen && (
-                <div id="modal-overlay">
-                    <form onSubmit={handleSubmit}>
-                        <label>Contact</label>
-                        <div>
-                            <input
-                                id='email'
-                                type='text'
-                                placeholder='E-Mail'
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id='name'
-                                type='text'
-                                placeholder='Name'
-                                value={name}
-                                onChange={e => setName(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id='firstname'
-                                type='text'
-                                placeholder='First Name'
-                                value={firstname}
-                                onChange={e => setFirstName(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <textarea
-                                id='message'
-                                placeholder='Message'
-                                value={message}
-                                onChange={e => setMessage(e.target.value)}
-                            />
-                        </div>
-                        <button type='submit'>Send</button>
-                    </form>
-                </div>
-            )}
-        </>
+        <motion.div className={contactCSS.Form}>
+
+            <ExitButton setFormOpen={setFormOpen}/>
+
+            <Heading text={"Contact"} />
+
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    id="1"
+                    text="E-Mail"
+                    value={email}
+                    setText={setEmail}
+                />
+                <TextField
+                    id="2"
+                    text="First name"
+                    value={firstname}
+                    setText={setFirstName}
+                />
+                <TextField
+                    id="3"
+                    text="Last name"
+                    value={lastname}
+                    setText={setLastname}
+                />
+                <TextField
+                    id="4"
+                    text="Message"
+                    value={message}
+                    setText={setMessage}
+                />
+
+                <SubmitButton />
+            </form>
+        </motion.div>
     )
 }
+const Heading = ({text}) => {
+    return (
+        <h3 className={contactCSS.Heading}>
+            {text}
+        </h3>
+    )
+}
+const SubmitButton = (values) => {
+    return (
+        <button 
+            className={contactCSS.SubmitButton}
+            type="submit"
+        >
+            Submit
+        </button>
+    )
+}
+const TextField = ({id, text, value, setText}) => {
+    return (
+        <input
+            className={contactCSS.TextField}
+            id={id}
+            type="text"
+            placeholder={text}
+            value={value}
+            onChange={e => setText(e.target.value)}
+        />
+    )
+}
+const ExitButton = ({setFormOpen}) => {
+    return (
+        <button
+            className={contactCSS.ExitButton}
+            onClick={() => setFormOpen(false)}
+        >
+
+        </button>
+    )
+}
+
+
+
 
 export default Footer;

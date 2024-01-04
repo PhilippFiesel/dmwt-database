@@ -468,7 +468,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                 {
                     top: "50%",
                     left: "50%",
-                    transform: "translate(-50%, -50%) scale(1.25)",
+                    transform: "translate(-50%, -50%) scale(1.35)",
                     transition:{
                         duration: 0.4,
                         ease: easeOut
@@ -526,7 +526,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                     delay: 0.3,
                     ease: easeOut
                 }}
-                stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="var(--primary)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
 
         </motion.div>

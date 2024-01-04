@@ -283,4 +283,6 @@
   position: absolute;
   display: flex;
   align-items: center;
+  color: var(--neutral-text);
+  font-size: 10px;
 }
