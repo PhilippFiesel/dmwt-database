@@ -34,7 +34,7 @@ const Footer = () => {
                 }}
             >   
                 <div className={styles.FooterText}>
-                    © 2023/2024 Copyright<br/>Dennis Messmer<br/>Philipp Fiesel
+                    © 2023/2024 Copyright<br/>Dennis Messmer<br/>Philipp Fiesel<br/>Icons: Bootstrap Icons
                 </div>
                 <Contact formOpen={formOpen} setFormOpen={setFormOpen} />
             </div>
@@ -48,6 +48,8 @@ const BlurryBackground = ({setFormOpen}) => {
         <motion.div
             className={contactCSS.BlurryBackground}
             onClick={() => setFormOpen(false)}
+            animate={{opacity:[0,1]}}
+            transition={{duration: 0.15}}
         />
     )
 }
@@ -262,6 +264,9 @@ const ExitButton = ({setFormOpen}) => {
             className={contactCSS.ExitButton}
             onClick={() => setFormOpen(false)}
         >
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.11612 1.11612C1.60427 0.627961 2.39573 0.627961 2.88388 1.11612L9.5 7.73223L16.1161 1.11612C16.6043 0.627961 17.3957 0.627961 17.8839 1.11612C18.372 1.60427 18.372 2.39573 17.8839 2.88388L11.2678 9.5L17.8839 16.1161C18.372 16.6043 18.372 17.3957 17.8839 17.8839C17.3957 18.372 16.6043 18.372 16.1161 17.8839L9.5 11.2678L2.88388 17.8839C2.39573 18.372 1.60427 18.372 1.11612 17.8839C0.627961 17.3957 0.627961 16.6043 1.11612 16.1161L7.73223 9.5L1.11612 2.88388C0.627961 2.39573 0.627961 1.60427 1.11612 1.11612Z" fill="white"/>
+            </svg>
 
         </button>
     )
