@@ -82,20 +82,20 @@ h4 {
   padding: 20px;
   border-radius: 30px;
   height: 300px;
-  width: 376px;
-  position: absolute;
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
   bottom: 60px;
-  right: 0px;
   border: 1px solid #37383C;
+  z-index: 1;
+  max-width: 415px;
 }
 
 #message{
-  width: 70%;
+  width: 20px;
+  height: 50px;
   padding: 8px;
   margin: 8px 0;
-  resize: vertical; 
-  min-height: 100px; 
-  max-height: 100px;
 }
 
 #modal-overlay form div {

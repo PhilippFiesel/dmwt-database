@@ -7,7 +7,6 @@ var weight = 0;
 var answerAnimation;
 var width = 0;
 
-
 const Questioneer = () => {
     // fetching questioneer data from json
     const {data,error} = useSWR("data/questions.json", (url) => fetch(url).then((res) => res.json()));
@@ -73,7 +72,6 @@ const Questioneer = () => {
     
             else if (onLastPage) {
                 // submit to database
-                console.log("submitted");
                 setSubmit(true);
                 handleSubmit(weight, setSuccessfulTransfer);
             }
@@ -470,8 +468,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                 {
                     top: "50%",
                     left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    scale: 1,
+                    transform: "translate(-50%, -50%) scale(1.25)",
                     transition:{
                         duration: 0.4,
                         ease: easeOut
@@ -492,29 +489,45 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                     d="M6.5298 26C6.5298 36.7531 15.2469 45.4702 26 45.4702C36.7531 45.4702 45.4702 36.7531 45.4702 26C45.4702 15.2469 36.7531 6.5298 26 6.5298C15.2469 6.5298 6.5298 15.2469 6.5298 26Z"
                     fill="none"
                     strokeWidth="6"
-                    stroke="var(--primary)"
                     strokeLinecap="round"
-                    animate={{
-                        strokeDashoffset: 122.3 - 122.3 * relation,
-                        strokeDasharray: 122.3, // 100%
-
-                        transition: {
-                            ease: easeOut,
-                            duration: 0.3
+                    animate={
+                        submitted ?
+                        {
+                            strokeDashoffset: 0,
+                            strokeDasharray: 122.3, // 100%
+                            stroke: "var(--primary)",
+                            transition: 
+                            {
+                                duration: 0.55,
+                                ease: easeOut
+                            }
                         }
-                    }}
+                        :
+                        {
+                            strokeDashoffset: 122.3 - 122.3 * relation,
+                            strokeDasharray: 122.3, // 100%
+
+                            stroke: "var(--primary)",
+
+                            transition: {
+                                ease: easeOut,
+                                duration: 0.3,
+                            }
+                        }
+                    }
                     
                 />
             </svg>
-            <motion.svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute'}}>
-                <motion.path d="M2 11  L8 17  L21 2" 
-                animate={successfulTransfer ? {pathLength: 1, opacity: 1} : {pathLength: 0, opacity: 0}}
+            <svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute'}}>
+                <motion.path d="M2 11  L8 17  L21 2"
+                animate={successfulTransfer ? {pathLength: [0.15,0.3,0.75,1], opacity: 1} : {pathLength: 0, opacity: 0}}
                 transition={{
-                    duration: 0.375,
-                    delay: 0.45
+                    duration: 0.25,
+                    delay: 0.3,
+                    ease: easeOut
                 }}
                 stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </motion.svg>
+            </svg>
 
         </motion.div>
     )
