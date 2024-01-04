@@ -192,7 +192,8 @@ const Bar = ({value, maxValue}) => {
                     background: "linear-gradient(to right, rgba(33, 242, 103), rgb(24, 160, 251))",
                     backgroundSize: "190.35px",
                     borderRadius: "22.5px",
-                    position: "relative"
+                    position: "relative",
+                    zIndex: 1
                 }}
                 whileHover={{
                     filter: "brightness(0.5)",

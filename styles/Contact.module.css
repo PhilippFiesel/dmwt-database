@@ -19,7 +19,7 @@
 .Form {
     background: #161616;
     border-radius: 30px;
-    height: 325px;
+    height: 400px;
     width: 100%;
     bottom: 60px;
     border: 1px solid #37383C;
@@ -40,9 +40,9 @@
 }
 
 .SubmitButton {
-    width: 80px;
-    height: 30px;
-    border-radius: 30px;
+    width: 35%;
+    height: 45px;
+    border-radius: 45px;
     background-color: var(--secondary); 
     cursor: pointer; 
     border: none;
@@ -54,12 +54,13 @@
 .TextField {
     border: none;
     width: 80%;
-    height: 30px;
+    height: 45px;
     margin-bottom: 15px;
     background-color: var(--box-fill-bright);
-    border-radius: 30px;
+    border-radius: 45px;
     text-indent: 25px;
     margin-left: 10%;
+    font-size: 14px;
 }
 
 .ExitButton {
@@ -82,6 +83,7 @@
     backdrop-filter: blur(4px);
     background-color: rgba(0,0,0, 0.7);
     position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
 }

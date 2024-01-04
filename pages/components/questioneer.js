@@ -261,10 +261,8 @@ const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, set
         },
         onAnimationComplete: () => {
             setFadeOutAnimation(false);
-            setFadeInAnimation(true);
         }
     }
-    console.log("aniwidth", -50*width/415);
     const fadeIn = {
         animate: {
             y: [- 65 * index, 6, 0],
@@ -276,9 +274,6 @@ const Answers = ({index, count, children, fadeInAnimation, fadeOutAnimation, set
             duration: 0.55,
             delay: 0.05 * index,
             ease: easeOut
-        },
-        onAnimationComplete: () => {
-            setFadeInAnimation(false);
         }
     }
 

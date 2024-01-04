@@ -20,7 +20,7 @@ const Footer = () => {
 
     return (
         <>
-        {formOpen ? <BlurryBackground/> : <></>}
+        {formOpen ? <BlurryBackground setFormOpen={setFormOpen}/> : <></>}
         <div className={styles.FooterLine}/>
         <div className={styles.FooterContainer}>
 
@@ -64,10 +64,11 @@ const Contact = ({formOpen, setFormOpen}) => {
     )
 }
 
-const BlurryBackground = () => {
+const BlurryBackground = ({setFormOpen}) => {
     return (
         <motion.div
             className={contactCSS.BlurryBackground}
+            onClick={() => setFormOpen(false)}
         />
     )
 }
