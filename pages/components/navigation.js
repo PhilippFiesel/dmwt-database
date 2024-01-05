@@ -159,7 +159,7 @@ const Navigation = () => {
       const handleScroll = () => {
         position = window.scrollY;
 
-        if (buttons[current+1] != null && position > buttons[current+1].destination) {
+        if (buttons[current+1] != null && position > buttons[current+1].destination-150) {
           setCurrent(current => current+1);
         }
         else if (buttons[current-1] != null && position <= buttons[current-1].destination + 150) {

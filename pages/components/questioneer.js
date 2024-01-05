@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from '../../styles/Home.module.css';
-import {delay, easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
+import {animate, delay, easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
 
 var weight = 0;
 var answerAnimation;
@@ -20,6 +20,8 @@ const Questioneer = () => {
     const [submitAnimation, setSubmitAnimation] = useState(false);
     const [submitted, setSubmit] = useState(false);
     const [successfulTransfer, setSuccessfulTransfer] = useState(false);
+
+    const [submitFadeOut, setSubmitFadeOut] = useState(false);
 ;
     if (!data) return <div>NULL</div>; // TODO maybe loading screen?
     const {title: questionTitle, type: questionType} = data.questions[currentPage];
@@ -93,9 +95,19 @@ const Questioneer = () => {
     return (
         <Container>
             <QuestioneerBox>
-                <motion.div animate={{
-                    opacity: submitted ? 0 : 1
-                }}
+                <motion.div
+                style={submitFadeOut ? {display: "none"} : {}}
+                animate={
+                    submitted ?
+                    {
+                        opacity: 0,
+                    }
+                    :
+                    {
+                        
+                    }
+                }
+                onAnimationComplete = {() => {if (!submitFadeOut) {setSubmitFadeOut(true)}}}
                 transition={{
                     duration: 0.1
                 }}
@@ -436,7 +448,6 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
 }
 const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}) => {
 
-    console.log("submitteddsfsdfds", submitted);
 
     const relation = ((currentPage) / amountPages)*-1;
 

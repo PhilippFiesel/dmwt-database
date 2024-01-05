@@ -253,6 +253,10 @@
   margin-right: 10px;
   box-shadow: 0 0 20px 1px rgba(255, 255, 255, 0.25);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .FooterContainer{
