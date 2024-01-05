@@ -2,8 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { animate, easeOut, motion } from "framer-motion";
 import styles from '../../styles/Home.module.css';
 
-
-const buttons = [
+var buttons = [
   {
     description: "Home",
     destination: 0
@@ -11,12 +10,12 @@ const buttons = [
 
   {
     description: "Information",
-    destination: 525
+    destination: 580
   },
 
   {
     description: "Phone",
-    destination: 1325
+    destination: 1299
   },
 
   {
@@ -32,21 +31,113 @@ const Navigation = () => {
     const [current, setCurrent] = useState(0);
     const [inSmallLayout, setSmallLayout] = useState();
 
-
     useEffect(() => {
       function handleResize() {
+        console.log(window.innerWidth);
           if (window.innerWidth < 850) {
             setSmallLayout(true);
           }
           else {
             setSmallLayout(false);
           }
+          if (window.innerWidth <= 1190) {
+            buttons = [
+                {
+                  description: "Home",
+                  destination: 0
+                },
+              
+                {
+                  description: "Information",
+                  destination: 580
+                },
+              
+                {
+                  description: "Phone",
+                  destination: 1868
+                },
+              
+                {
+                  description: "Questioneer",
+                  destination: 2740
+                }
+              ];
+          }
+          else {
+            buttons = [
+              {
+                description: "Home",
+                destination: 0
+              },
+            
+              {
+                description: "Information",
+                destination: 580
+              },
+            
+              {
+                description: "Phone",
+                destination: 1299
+              },
+            
+              {
+                description: "Questioneer",
+                destination: 2150
+              }
+            ];
+          }
       }
 
       window.addEventListener('resize', handleResize);
 
-      if (window.innerWidth < 800) {
+      if (window.innerWidth < 850) {
         setSmallLayout(true);
+      }
+      if (window.innerWidth <= 1190) {
+        buttons = [
+            {
+              description: "Home",
+              destination: 0
+            },
+          
+            {
+              description: "Information",
+              destination: 580
+            },
+          
+            {
+              description: "Phone",
+              destination: 1868
+            },
+          
+            {
+              description: "Questioneer",
+              destination: 2719
+            }
+          ];
+      }
+      else {
+        buttons = [
+          {
+            description: "Home",
+            destination: 0
+          },
+        
+          {
+            description: "Information",
+            destination: 580
+          },
+        
+          {
+            description: "Phone",
+            destination: 1299
+          },
+        
+          {
+            description: "Questioneer",
+            destination: 2150
+          }
+        ];
       }
       return () => {
         window.removeEventListener('resize', handleResize);
@@ -56,6 +147,7 @@ const Navigation = () => {
     // navigation button clicked
     const navigateTo = (clicked) => {
 
+      console.log(buttons[clicked].destination)
       window.scrollTo({
         top: buttons[clicked].destination
       })
@@ -81,6 +173,8 @@ const Navigation = () => {
       };
     });
   
+
+    
 
     return (
       <div className={styles.header}>

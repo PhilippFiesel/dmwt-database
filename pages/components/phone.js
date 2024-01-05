@@ -1,6 +1,6 @@
 import styles from '../../styles/Home.module.css';
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {easeOut, motion} from "framer-motion";
 
 function maxValue(arr) {
@@ -51,8 +51,7 @@ const Phone = () => {
         }
         else {
 
-        }
-        
+        }    
     }
 
     return (
@@ -107,6 +106,8 @@ const Container = ({children}) => {
     )
 }
 const PhoneBox = ({children}) => {
+
+
     return (
         <div style={{
             height: "705.6px",
@@ -120,7 +121,8 @@ const PhoneBox = ({children}) => {
             display: "flex",
             justifyContent: "center",
             position: "relative"
-        }}>
+        }}
+        >
             {children}
         </div>
     )
@@ -277,5 +279,4 @@ const TikTokIcon = () => {
         <img src='tiktok.svg'/>
     )
 }
-
 export default Phone;
