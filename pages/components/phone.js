@@ -50,7 +50,12 @@ const Phone = () => {
     return (
         <Container>
             <PhoneBox>
-
+                <ReturnButton
+                    stats={stats}
+                    page={page}
+                    setPage={() => switchPage(0)}
+                    fadeOutAnimation={fadeOutAnimation}
+                />
                 <Heading 
                     title={currentPage.title}
                     fadeOutAnimation={fadeOutAnimation}
@@ -107,6 +112,62 @@ const Container = ({children}) => {
         <div className={styles.phone_container}>
             {children}
         </div>
+    )
+}
+const ReturnButton = ({stats, page, setPage, fadeOutAnimation}) => {
+    return (
+        page && !fadeOutAnimation != 0 ?
+        <motion.button
+            style={{
+                position: "absolute",
+                left: 25,
+                top: 25,
+                display: "flex",
+                width: "fit-content",
+                height: "fit-content",
+                background: "none",
+                border: "none",
+                cursor: "pointer"
+            }}
+            onClick={setPage}
+            animate={{
+                opacity: [0,0,1],
+                scale: [0,1],
+                x: ["-50%", "0%"],
+                y: [50,0],
+                transition: {duration: 0.6, ease: easeOut}
+            }}
+        >
+            <motion.div
+                style={{
+                    width: 40,
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <svg width="25" height="25" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2879 3.08709C21.654 3.4532 21.654 4.0468 21.2879 4.41291L10.7008 15L21.2879 25.5871C21.654 25.9532 21.654 26.5468 21.2879 26.9129C20.9218 27.279 20.3282 27.279 19.9621 26.9129L8.71209 15.6629C8.34597 15.2968 8.34597 14.7032 8.71209 14.3371L19.9621 3.08709C20.3282 2.72097 20.9218 2.72097 21.2879 3.08709Z" fill="var(--secondary)"/>
+                </svg>
+
+            </motion.div>
+            <motion.div
+                style={{
+                    width: "fit-content",
+                    height: 40,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 14,
+                    color: "var(--secondary)"
+                }}
+            >
+                {stats[0].title}
+            </motion.div>
+        </motion.button>
+        :
+        ""
     )
 }
 const PhoneBox = ({children}) => {

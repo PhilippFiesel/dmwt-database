@@ -12,7 +12,7 @@
     height: 22.5px;
     background: linear-gradient(to right , rgba(33, 242, 103), rgb(24, 160, 251));
     background-size: 190.35px;
-    border-radius: 22.5px;
+    border-radius: 10px;
     position: relative;
     z-index: 1;
 }
