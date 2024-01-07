@@ -196,8 +196,8 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
                     position: 'absolute',
                     width: 17.5,
                     height: 17.5,
-                    bottom: 22.5,
-                    right: -10,
+                    bottom: 45,
+                    right: -30,
                     display: 'flex',
                     alignItems: "center",
                     justifyContent: "center",
@@ -208,7 +208,7 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
                 animate={{
                     opacity: [0,0,0,1],
                     scale: [0,1],
-                    transition: {duration: 1}
+                    transition: {duration: 0.6, delay: 0.3}
                 }}
                 onClick={() => window.open(page.source)}
             > 
@@ -219,6 +219,31 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
             </motion.button>
             
             : ""}
+            {!fadeOutAnimation ? <motion.div
+                animate={{
+                    opacity: [0,0,0,1],
+                    transition: {duration: 1}
+                }}
+                style={{
+                    position: 'absolute',
+                    width: "fit-content",
+                    height: "fit-content",
+                    bottom: 22.5,
+                    right: -30,
+                    bottom: 22.5,
+                    fontSize: 11,
+                    textAlign: "right",
+                    color: "var(--neutral-text)",
+                    fontWeight: 800
+                }}
+            >
+                grams CO
+                <span 
+                    style={{fontSize:8, color: "var(--neutral-text)",
+                    fontWeight: 800}}
+                >2 </span>
+                 per minute
+            </motion.div> : ""}
         </div>
     )
 }
@@ -293,12 +318,14 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
             <motion.div 
                 style={{
                     width: "52px",
-                    fontSize: "14px",
+                    fontSize: "11px",
                     position: "relative",
                     marginLeft: 5,
                     opacity: 0,
                     scale: 0.25,
-                    x: -10
+                    x: -10,
+                    fontWeight: 800,
+                    backdropFilter: "blur(6px)"
                 }}
                 animate={{
                     opacity: hovering ? [0,0,1] : 0,
@@ -309,7 +336,7 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
                     duration: 0.4
                 }}
             >
-                {value.value + " g"}
+                {value.value}
             </motion.div>
         </motion.div>
     )
@@ -358,9 +385,8 @@ const Description = ({text, fadeOutAnimation}) => {
             animate={
                 fadeOutAnimation == false ?
                 {
-                    opacity: [0,0,0.5,1],
-                    y: [100,0],
-                    scale: [0.75,1]
+                    opacity: [0,0,1],
+                    y: [60,-5,0]
                 }
                 :
                 {
