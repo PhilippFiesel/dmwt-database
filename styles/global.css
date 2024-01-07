@@ -3,6 +3,7 @@
 :root {
   --primary: rgb(33, 242, 103);
   --secondary: rgb(24, 160, 251);
+  --special: rgb(123, 0, 246);
 
   --success: #22F268;
   --danger: #F5372C;

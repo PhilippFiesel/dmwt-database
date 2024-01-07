@@ -1,0 +1,18 @@
+.Bar_Description {
+    left: 0;
+    width: 52px;
+    font-size: 11px;
+    position: relative;
+    margin-right: 15px;
+    text-align: left;
+}
+
+.Bar_Rectangle {
+    width: 190.35px;
+    height: 22.5px;
+    background: linear-gradient(to right , rgba(33, 242, 103), rgb(24, 160, 251));
+    background-size: 190.35px;
+    border-radius: 22.5px;
+    position: relative;
+    z-index: 1;
+}

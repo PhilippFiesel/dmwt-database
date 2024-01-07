@@ -2,6 +2,7 @@ import styles from '../../styles/Home.module.css';
 import useSWR from 'swr';
 import { useRef, useState, useEffect } from 'react';
 import {animate, easeOut, motion} from "framer-motion";
+import phoneCSS from "../../styles/Phone.module.css"
 
 function maxValue(arr) {
     let max = arr[0].value;
@@ -53,6 +54,7 @@ const Phone = () => {
                 <Heading 
                     title={currentPage.title}
                     fadeOutAnimation={fadeOutAnimation}
+                    page={currentPage}
                 />
                 <BarChart 
                     page={currentPage}
@@ -129,17 +131,23 @@ const PhoneBox = ({children}) => {
         </div>
     )
 }
-const Heading = ({title, fadeOutAnimation}) => {
+const Heading = ({title, fadeOutAnimation, page}) => {
     return (
         <motion.h3 style={{
                 position: "absolute",
                 left: "36px",
-                top: "82px"
+                top: "82px",
+                background: "linear-gradient(to right, #18A0FB, #7B00F6)",
+                backgroundClip: "text",
+                color: "transparent",
+                width: 300
             }}
             animate={
                 fadeOutAnimation == false ?
                 {
-                    opacity: [0,1]
+                    opacity: [0,1],
+                    scale: [0.25,1],
+                    x: [-112.5,0]
                 }
                 :
                 {
@@ -147,7 +155,8 @@ const Heading = ({title, fadeOutAnimation}) => {
                 }
             }
             transition={{
-                duration: 0.8
+                duration: 0.55,
+                ease: easeOut
             }}
         >
             {fadeOutAnimation == false ? title : ""}
@@ -181,6 +190,35 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
                     }
                 })
             }
+            {!fadeOutAnimation && page.source != "" ?
+            <motion.button 
+                style={{
+                    position: 'absolute',
+                    width: 17.5,
+                    height: 17.5,
+                    bottom: 22.5,
+                    right: -10,
+                    display: 'flex',
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer"
+                }}
+                animate={{
+                    opacity: [0,0,0,1],
+                    scale: [0,1],
+                    transition: {duration: 1}
+                }}
+                onClick={() => window.open(page.source)}
+            > 
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.44602 3.82812C9.44602 3.52609 9.20118 3.28125 8.89915 3.28125H1.64062C0.734532 3.28125 0 4.01578 0 4.92188V15.8594C0 16.7655 0.734533 17.5 1.64062 17.5H12.5781C13.4842 17.5 14.2188 16.7655 14.2188 15.8594V8.60085C14.2188 8.29882 13.9739 8.05398 13.6719 8.05398C13.3698 8.05398 13.125 8.29882 13.125 8.60085V15.8594C13.125 16.1614 12.8802 16.4062 12.5781 16.4062H1.64062C1.33859 16.4062 1.09375 16.1614 1.09375 15.8594V4.92188C1.09375 4.61984 1.33859 4.375 1.64062 4.375H8.89915C9.20118 4.375 9.44602 4.13016 9.44602 3.82812Z" fill="#0591DE"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 0.546875C17.5 0.244844 17.2552 0 16.9531 0H11.4844C11.1823 0 10.9375 0.244844 10.9375 0.546875C10.9375 0.848906 11.1823 1.09375 11.4844 1.09375H15.6329L6.72268 10.0039C6.50911 10.2175 6.50911 10.5638 6.72268 10.7773C6.93624 10.9909 7.28251 10.9909 7.49607 10.7773L16.4062 1.86715V6.01562C16.4062 6.31766 16.6511 6.5625 16.9531 6.5625C17.2552 6.5625 17.5 6.31766 17.5 6.01562V0.546875Z" fill="#0591DE"/>
+                </svg>
+            </motion.button>
+            
+            : ""}
         </div>
     )
 }
@@ -202,11 +240,11 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
     const fadeIn = {
         animate: {
             y: [-(45)*index, 10,0],
-            opacity: [0,1]
+            opacity: [0,0,1]
         },
         transition: {
-            duration: 0.6,
-            delay: 0.025*index,
+            duration: 0.7,
+            delay: 0.05*index,
             ease: easeOut
         }
     }
@@ -226,35 +264,25 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
             {...chosenAnimation}
         >
             {/* Description */}
-            <motion.div
-                style={{
-                    left: 0,
-                    width: "52px",
-                    fontSize: "11px",
-                    position: "relative",
-                    left: "0px",
-                    marginRight: "15px"
-                }}
-            >
+            <motion.div className={phoneCSS.Bar_Description}>
                 {fadeOutAnimation ? "" : value.desc}
             </motion.div>
             {/* Bar itself */}
             <motion.div
-                style={{
-                    width: width+"px",
-                    height: "22.5px",
-                    background: "linear-gradient(to right, rgba(33, 242, 103), rgb(24, 160, 251))",
-                    backgroundSize: "190.35px",
-                    borderRadius: "22.5px",
-                    position: "relative",
-                    zIndex: 1
-                }}
+                className={phoneCSS.Bar_Rectangle}
                 whileHover={{
                     filter: "brightness(0.5)",
                     background: "linear-gradient(to right, rgb(24, 160, 251), rgba(33, 242, 103))",
                     backgroundSize: "190.35px",
                     transition: {
                         duration: 0.3,
+                    }
+                }}
+                animate={{
+                    width: width+"px",
+                    transition: {
+                        duration: 1,
+                        ease: easeOut
                     }
                 }}
                 
@@ -265,7 +293,7 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
             <motion.div 
                 style={{
                     width: "52px",
-                    fontSize: "11px",
+                    fontSize: "14px",
                     position: "relative",
                     marginLeft: 5,
                     opacity: 0,
@@ -330,7 +358,9 @@ const Description = ({text, fadeOutAnimation}) => {
             animate={
                 fadeOutAnimation == false ?
                 {
-                    opacity: [0,1]
+                    opacity: [0,0,0.5,1],
+                    y: [100,0],
+                    scale: [0.75,1]
                 }
                 :
                 {
@@ -338,7 +368,8 @@ const Description = ({text, fadeOutAnimation}) => {
                 }
             }
             transition={{
-                duration: 0.8
+                duration: 0.55,
+                delay: 0.3
             }}
         >
             {fadeOutAnimation == false ? text : ""}
