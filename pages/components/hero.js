@@ -32,7 +32,7 @@ const Hero = () => {
                     y: [10,0]
                 }}
             >
-                Your click, your responsiblity
+                Your like, your responsiblity
             </motion.h2>
             
             <motion.h3
