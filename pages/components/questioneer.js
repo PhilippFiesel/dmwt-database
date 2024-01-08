@@ -478,7 +478,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                     rotate: -360
                 },
                 transition: {
-                    duration: 2,
+                    duration: 0.4,
                     repeat: Infinity,
                     ease: easeInOut,
                     repeatType: "reverse"
