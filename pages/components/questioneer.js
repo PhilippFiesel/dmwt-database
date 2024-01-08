@@ -451,6 +451,57 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
 
     const relation = ((currentPage) / amountPages)*-1;
 
+    var loadingAnimation = {
+
+    }
+
+    if (submitted) {
+        if (successfulTransfer) {
+            loadingAnimation = {
+                animate: {
+                    strokeDashoffset: 0,
+                    strokeDasharray: 122.3, // 100%
+                    stroke: "var(--primary)"
+                },
+                transition: {
+                    duration: 0.55,
+                    ease: easeOut,
+                }
+            }
+        }
+        else {
+            loadingAnimation = {
+                animate: {
+                    strokeDashoffset: [18.345,18.345],
+                    strokeDasharray: 122.3, // 100%
+                    stroke: ["var(--secondary)","var(--secondary)"],
+                    rotate: -360
+                },
+                transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: easeInOut,
+                    repeatType: "reverse"
+                }
+            }   
+        }
+    }
+    else {
+        loadingAnimation = {
+            animate: {
+                strokeDashoffset: 122.3 - 122.3 * relation,
+                strokeDasharray: 122.3, // 100%
+
+                stroke: "var(--primary)",
+            },
+            transition: {
+                ease: easeOut,
+                duration: 0.3,
+            }
+        }
+    }
+
+
     return (
         <motion.div
             style={{
@@ -491,32 +542,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                     fill="none"
                     strokeWidth="6"
                     strokeLinecap="round"
-                    animate={
-                        submitted ?
-                        {
-                            strokeDashoffset: 0,
-                            strokeDasharray: 122.3, // 100%
-                            stroke: "var(--primary)",
-                            transition: 
-                            {
-                                duration: 0.55,
-                                ease: easeOut
-                            }
-                        }
-                        :
-                        {
-                            strokeDashoffset: 122.3 - 122.3 * relation,
-                            strokeDasharray: 122.3, // 100%
-
-                            stroke: "var(--primary)",
-
-                            transition: {
-                                ease: easeOut,
-                                duration: 0.3,
-                            }
-                        }
-                    }
-                    
+                    {...loadingAnimation}
                 />
             </svg>
             <svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute'}}>
