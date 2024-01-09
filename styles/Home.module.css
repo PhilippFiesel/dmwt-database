@@ -67,6 +67,7 @@
 
   width: 100%;
   height: fit-content;
+  opacity: 0;
 
   display: flex;
   justify-content: center;
@@ -231,6 +232,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 }
 
 .appicon {

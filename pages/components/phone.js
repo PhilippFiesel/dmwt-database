@@ -23,6 +23,7 @@ const Phone = () => {
     const [prevPage, setPrevPage] = useState(0);
     const [page, setPage] = useState(0);
     const [fadeOutAnimation, setFadeOutAnimation] = useState(false);
+    const [power, setPower] = useState(false);
 
     if (!data) return <div>NULL</div>;
 
@@ -50,6 +51,13 @@ const Phone = () => {
     return (
         <Container>
             <PhoneBox>
+                <PowerButton
+                    power={power}
+                    setPower={setPower}
+                />
+
+        { power ?
+            <>
                 <ReturnButton
                     stats={stats}
                     page={page}
@@ -101,7 +109,11 @@ const Phone = () => {
                         icon={<TikTokIcon active={page == 4}/>}
                     />
                 </MenuBar>
-
+            </>
+            :
+            ""
+        }
+        
             </PhoneBox>
         </Container>
     )
@@ -112,6 +124,113 @@ const Container = ({children}) => {
         <div className={styles.phone_container}>
             {children}
         </div>
+    )
+}
+const PowerButton = ({power, setPower}) => {
+
+    const [hovering, setHovering] = useState(false);
+
+    return (
+        <motion.button
+            style={{
+                width: "fit-content",
+                position: "absolute",
+                right: 0,
+                top: 175,
+                height: 80,
+                cursor: "pointer",
+                background: "none",
+                border: "none"
+            }}
+            onHoverStart={() => setHovering(true)}
+            onHoverEnd={() => setHovering(false)}
+            
+            onClick={() => setPower(!power)}
+        >
+            <motion.div
+                style={{
+                    width: 7,
+                    height: "100%",
+                    backgroundColor: "white",
+                    borderBottomLeftRadius: 7,
+                    borderTopLeftRadius: 7,
+                    position: "absolute",
+                    right: 0,
+                }}
+                animate={
+                    power ?
+                    {
+                        backgroundColor: "var(--primary)",
+                        width: [7,13, 0,0],
+                    }
+                    :
+                    hovering ?
+                    {
+                        filter: hovering ? "brightness(0.5)" : "",
+                        width: [15, 7]
+                    }
+                    :
+                    {
+                        width: [15, 7]
+                    }
+                }
+                transition={
+                    power ?
+                    {
+                        duration: 0.6,
+                        ease: easeOut
+                    }
+                    :
+                    {
+                        duration: 0.6,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                    }
+                }
+            />
+            <motion.div
+                style={{
+                    width: "fit-content",
+                    marginRight: 25,
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+                animate={
+                    power ?
+                    {
+                        x: [0,-25],
+                        opacity: [1,1,0],
+                        scale: 0.8,
+                        color: "var(--primary)"
+                    }
+                    :
+                    {
+                        x: [-3, 0]
+                    }
+                }
+                transition={
+                    power ?
+                    {
+                        duration: 0.4
+                    }
+                    :
+                    {
+                        duration: 0.6,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                    }
+                }
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: 5}}>
+                    <circle cx="8" cy="8" r="8" fill="var(--box-fill-bright"/>
+                    <path d="M10.0321 3.04238C10.1578 3.11545 10.2164 3.2655 10.1737 3.40441L9.04812 7.06251H11.125C11.2497 7.06251 11.3624 7.13661 11.4119 7.25106C11.4613 7.36551 11.438 7.4984 11.3526 7.58919L6.35257 12.9017C6.25296 13.0075 6.09353 13.0307 5.96789 12.9576C5.84225 12.8846 5.78358 12.7345 5.82633 12.5956L6.9519 8.93751H4.87501C4.75033 8.93751 4.63759 8.8634 4.58814 8.74896C4.53869 8.63451 4.562 8.50162 4.64744 8.41083L9.64744 3.09833C9.74706 2.9925 9.90649 2.9693 10.0321 3.04238Z" fill="var(--primary)"/>
+                </svg>
+                Power
+            </motion.div>
+        </motion.button>
+        
     )
 }
 const ReturnButton = ({stats, page, setPage, fadeOutAnimation}) => {
@@ -174,22 +293,32 @@ const PhoneBox = ({children}) => {
 
 
     return (
-        <div style={{
-            height: "705.6px",
-            width: "368.1px",
-            background: "green",
-            borderRadius: 60,
-            border: "8px solid var(--phone-border)",
-            backgroundColor: "black",
+        <motion.div 
+            style={{
+                height: "705.6px",
+                width: "368.1px",
+                background: "green",
+                borderRadius: 60,
+                border: "8px solid var(--phone-border)",
+                backgroundColor: "black",
 
-            boxShadow: "0 0 100px 0.5px var(--phone-blur)",
-            display: "flex",
-            justifyContent: "center",
-            position: "relative"
-        }}
+                boxShadow: "0 0 100px 0.5px var(--phone-blur)",
+                display: "flex",
+                justifyContent: "center",
+                position: "relative",
+                opacity: 0,
+                scale: 0.9
+            }}
+            whileInView={{
+                opacity: 1,
+                scale: [0.9,1.0125,1],
+                transition: {
+                    duration: 1.1
+                }
+            }}
         >
             {children}
-        </div>
+        </motion.div>
     )
 }
 const Heading = ({title, fadeOutAnimation, page}) => {
@@ -361,7 +490,7 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
                     background: "linear-gradient(to right, rgb(24, 160, 251), rgba(33, 242, 103))",
                     backgroundSize: "190.35px",
                     transition: {
-                        duration: 0.3,
+                        duration: 0.1,
                     }
                 }}
                 animate={{
@@ -404,9 +533,19 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
 }
 const MenuBar = ({children}) => {
     return (
-        <div className={styles.phone_menubar}>
+        <motion.div 
+            className={styles.phone_menubar}
+            animate={{
+                opacity: 1,
+                scale: [0.9,1]
+            }}
+            transition={{
+                duration: 0.4,
+                delay: 0.5
+            }}
+        >
             {children}
-        </div>
+        </motion.div>
     )
 }
 const Button = ({onClick, page, id, icon}) => {

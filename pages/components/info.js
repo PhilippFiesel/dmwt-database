@@ -38,6 +38,14 @@ const Info = () => {
 
     return (
         <motion.div className={styles.info_container} 
+
+        whileInView={{
+            opacity: [0,1],
+            scale: [0.9,1.0125,1],
+            transition: {
+                duration: 1.1
+            }
+        }}
         >
             <motion.div className={styles.info_box}
             >

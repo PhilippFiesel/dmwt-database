@@ -237,6 +237,13 @@ const QuestioneerBox = ({children}) => {
     return (
         <motion.div 
             className={styles.questioneer_box}
+            whileInView={{
+                opacity: [0,1],
+                scale: [0.9,1.0125,1],
+                transition: {
+                    duration: 1.1
+                }
+            }}
         >
             {children}
         </motion.div>
