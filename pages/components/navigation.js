@@ -149,7 +149,8 @@ const Navigation = () => {
 
       console.log(buttons[clicked].destination)
       window.scrollTo({
-        top: buttons[clicked].destination
+        top: buttons[clicked].destination,
+        behavior: "smooth"
       })
 
       setCurrent(clicked);

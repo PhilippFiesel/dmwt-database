@@ -14,7 +14,7 @@ import Footer from "./components/footer"
 export default function Home() {
   return (
     <>
-      <Hero/>
+      <Hero />
       <Info />
       <Phone />
       <Questioneer />

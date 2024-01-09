@@ -61,18 +61,6 @@
   overflow: hidden;
 }
 
-.navIndicator {
-  position: relative;
-
-  width: 20px;
-  height: 6px;
-  border-radius: 3px;
-
-
-  background-color: var(--primary);
-
-  top: -12.5px;
-}
 
 .info_container {
   margin-top: 0px;
@@ -167,7 +155,7 @@
   border-radius: 40px;
   text-indent: 27px;
   user-select: none;
-
+  cursor: pointer;
 }
 
 .currentPageIndex {

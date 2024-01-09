@@ -22,6 +22,7 @@ const Questioneer = () => {
     const [successfulTransfer, setSuccessfulTransfer] = useState(false);
 
     const [submitFadeOut, setSubmitFadeOut] = useState(false);
+    const [showResultScreen, setResultScreen] = useState(false);
 ;
     if (!data) return <div>NULL</div>; // TODO maybe loading screen?
     const {title: questionTitle, type: questionType} = data.questions[currentPage];
@@ -74,7 +75,7 @@ const Questioneer = () => {
             else if (onLastPage) {
                 // submit to database
                 setSubmit(true);
-                handleSubmit(weight, setSuccessfulTransfer);
+                handleSubmit(weight, setSuccessfulTransfer, setResultScreen);
             }
         }
         else {
@@ -184,6 +185,7 @@ const Questioneer = () => {
                                     text={button.answer}
                                     fadeOutAnimation={fadeOutAnimation}
                                     setFadeOutAnimation={setFadeOutAnimation}
+                                    onClick={() => click()}
                                 />
                             </Answers>
                         );
@@ -210,7 +212,13 @@ const Questioneer = () => {
                     amountPages={data.questions.length}
                     submitted={submitted}
                     successfulTransfer={successfulTransfer}
+                    showResultScreen={showResultScreen}
                 />
+
+                {
+                    showResultScreen ?
+                    <ResultScreen  weight={weight}/> : ""
+                }
 
             </QuestioneerBox>
         </Container>
@@ -336,7 +344,7 @@ const AnswerButton = ({onClick, activeState}) => {
         </motion.div>
     )
 }
-const AnswerText = ({index, text, activeState, fadeOutAnimation, setFadeOutAnimation}) => {
+const AnswerText = ({index, text, activeState, fadeOutAnimation, onClick}) => {
     
     return (
         <motion.div 
@@ -354,6 +362,7 @@ const AnswerText = ({index, text, activeState, fadeOutAnimation, setFadeOutAnima
                 duration: 0.3,
                 ease: easeOut
             }}
+            onClick={onClick}
         >
             {fadeOutAnimation == false ? text : ""}
         </motion.div>
@@ -446,14 +455,13 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
         </motion.div>
     )
 }
-const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}) => {
+const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,showResultScreen}) => {
 
 
     const relation = ((currentPage) / amountPages)*-1;
 
-    var loadingAnimation = {
-
-    }
+    var loadingAnimation = {};
+    var fadeOutAnimation = {};
 
     if (submitted) {
         if (successfulTransfer) {
@@ -515,19 +523,15 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer}
                 justifyContent: 'center',
                 alignItems: 'center'
             }}
-            animate={
-                submitted ?
-                {
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%) scale(1.35)",
-                    transition:{
-                        duration: 0.4,
-                        ease: easeOut
-                    }
+            animate={ submitted ? {
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%) scale(1.35)",
+                transition:{
+                    duration: 0.4,
+                    ease: easeOut
                 }
-                : {}
-            }
+            } : {}}
         >
             <svg width="52" height="52">
                 <path
@@ -593,23 +597,112 @@ const ArrowRight = ({errorState, submitAnimation}) => {
         )
     }
 }
-const ArrowLeft = () => {
+const ArrowLeft = ({weight}) => {
     return (
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M33 22C33 21.2406 32.3844 20.625 31.625 20.625H15.6945L21.5973 14.7223C22.1342 14.1853 22.1342 13.3147 21.5973 12.7777C21.0603 12.2408 20.1897 12.2408 19.6527 12.7777L11.4027 21.0277C10.8658 21.5647 10.8658 22.4353 11.4027 22.9723L19.6527 31.2223C20.1897 31.7592 21.0603 31.7592 21.5973 31.2223C22.1342 30.6853 22.1342 29.8147 21.5973 29.2777L15.6945 23.375H31.625C32.3844 23.375 33 22.7594 33 22Z" fill="white"/>
         </svg>
     )
 }
+const ResultScreen = () => {
+    const Result_Heading = () => {
+        return (
+            <motion.h3
+                style={{
+                    width: "fit-content",
+                    height: "fit-content",
+                    background: "linear-gradient(to right, #18A0FB, #7B00F6)",
+                    backgroundClip: "text",
+                    color: "transparent",   
+                }}
+            >
+                Your Result
+            </motion.h3>
+        )
+    }
+    const Result_Value = () => {
+        return (
+            <motion.div
+                style={{
+                }}
+            >
+                {weight}
+            </motion.div>
+        )
+    }
+    const Average_Result = () => {
+        const value = getAvgFromDatabase();
 
+        return (
+            <motion.div
+                style={{
+                    marginTop: "35%",
+                }}
+            >
+                <motion.h3
+                    style={{
+                        background: "linear-gradient(to right, #18A0FB, #7B00F6)",
+                        backgroundClip: "text",
+                        color: "transparent", 
+                    }}
+                >
+                    Average Result
+                </motion.h3>
+                <motion.div>
+                    {value}
+                </motion.div>
+            </motion.div>
+        )
+    }
+
+    return (
+        <motion.div
+            style={{
+                position: "absolute",
+                top: "5%",
+                left: "5%",
+                opacity: 0
+            }}
+            animate={{
+                opacity: [0,1]
+            }}
+            transition={{
+                duration: 1,
+                delay: 1
+            }}
+        >
+            <Result_Heading/>
+            <Result_Value/>
+            <Average_Result/>
+        </motion.div>
+    )
+}
 
 // database submit
-const handleSubmit = async (weight, setSuccessfulTransfer) => {
+const handleSubmit = async (weight, setSuccessfulTransfer, setResultScreen) => {
 
     await fetch('../api/questioneerresult', {
         method: 'POST',
         body: JSON.stringify({ result: weight })
     });
     setSuccessfulTransfer(true);
+    setResultScreen(true)
+}
+const getAvgFromDatabase = () => {
+    const [average, setAverage] = useState(null);
+  
+    const fetchData = async () => {
+      try {
+        const response = await fetch('../api/questioneerresult', {method:'GET'});
+        const data = await response.json(); 
+        setAverage(data.average);
+      } catch (error) {
+        console.error('Error fetching average:', error);
+      }
+    };
+  
+    fetchData();
+    return parseFloat(average).toFixed(2);
 }
 
 export default Questioneer;
