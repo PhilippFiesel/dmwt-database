@@ -161,17 +161,27 @@ const ContactButton = ({text, onClick, menuState}) => {
 }
 const Form = ({setFormOpen}) => {
     const [email, setEmail]         = useState("");
-    const [lastname, setLastname]           = useState("");
+    const [lastname, setLastname]   = useState("");
     const [firstname, setFirstName] = useState("");
     const [message, setMessage]     = useState("");
+    
+    const [submitClicked, setSubmitClicked] = useState(false);
 
     useSWR('../api/contactForm', {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setSubmitClicked(true);
+
+        //If a field hasnt been filled out, it wont be sent to the database
+        if (email.trim() === "" || lastname.trim() === "" || firstname.trim() === "" || message.trim() === "") {
+            return;
+        }
 
         const newContact = {
             email: email,
@@ -179,6 +189,7 @@ const Form = ({setFormOpen}) => {
             firstname: firstname,
             message: message
         }
+        
     
         await fetch('../api/contactForm', {
             method: 'POST',
@@ -204,24 +215,28 @@ const Form = ({setFormOpen}) => {
                     text="E-Mail"
                     value={email}
                     setText={setEmail}
+                    isEmpty={submitClicked && email.trim() === ""}
                 />
                 <TextField
                     id="2"
                     text="First name"
                     value={firstname}
                     setText={setFirstName}
+                    isEmpty={submitClicked && firstname.trim() === ""}
                 />
                 <TextField
                     id="3"
                     text="Last name"
                     value={lastname}
                     setText={setLastname}
+                    isEmpty={submitClicked && lastname.trim() === ""}
                 />
                 <TextField
                     id="4"
                     text="Message"
                     value={message}
                     setText={setMessage}
+                    isEmpty={submitClicked && message.trim() === ""}
                 />
 
                 <SubmitButton />
@@ -236,20 +251,41 @@ const Heading = ({text}) => {
         </h3>
     )
 }
-const SubmitButton = (values) => {
-    return (
-        <button 
-            className={contactCSS.SubmitButton}
-            type="submit"
+const SubmitButton = ({submitClicked}) => {
+
+    const buttonVariants = {
+        normal: {
+          backgroundColor: 'var(--secondary)', 
+          scale: 1,
+        },
+        hover: {
+          scale: 1.05,
+        },
+        submitting: {
+          backgroundColor: 'var(--primary)', 
+          scale: 0.9,
+        }
+      };
+    
+      return (
+        <motion.button
+          className={contactCSS.SubmitButton}
+          type="submit"
+          variants={buttonVariants}
+          animate={submitClicked ? 'submitting' : 'normal'}
+          whileHover="hover"
         >
-            Submit
-        </button>
-    )
+          {submitClicked ? 'Submitted' : 'Submit'}
+        </motion.button>
+      );
 }
-const TextField = ({id, text, value, setText}) => {
+
+
+
+const TextField = ({id, text, value, setText, isEmpty}) => {
     return (
         <input
-            className={contactCSS.TextField}
+            className={`${contactCSS.TextField} ${isEmpty ? contactCSS.ForgottenTextField : ""}`}
             id={id}
             type="text"
             placeholder={text}
