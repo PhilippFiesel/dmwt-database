@@ -51,6 +51,7 @@ const Phone = () => {
     return (
         <Container>
             <PhoneBox>
+
                 <PowerButton
                     power={power}
                     setPower={setPower}
@@ -129,23 +130,42 @@ const Container = ({children}) => {
 const PowerButton = ({power, setPower}) => {
 
     const [hovering, setHovering] = useState(false);
+    const [removed, setRemove] = useState(false);
+
+        console.log(removed);
+    
+    const clickedAnimation = {
+        backgroundColor: "var(--primary)",
+        width: [7,13, 0,0],
+        transition: {
+            duration: 0.6,
+            ease: easeOut,
+        },
+    }
 
     return (
         <motion.button
-            style={{
-                width: "fit-content",
-                position: "absolute",
-                right: 0,
-                top: 175,
-                height: 80,
-                cursor: "pointer",
-                background: "none",
-                border: "none"
-            }}
+            style={
+                removed ?
+                {
+                    display: "none"
+                }
+                :
+                {
+                    width: "fit-content",
+                    position: "absolute",
+                    right: 0,
+                    top: 175,
+                    height: 80,
+                    cursor: "pointer",
+                    background: "none",
+                    border: "none",
+                }
+            }
             onHoverStart={() => setHovering(true)}
-            onHoverEnd={() => setHovering(false)}
+            onHoverEnd={() => setHovering(true)}
             
-            onClick={() => setPower(!power)}
+            onClick={() => setPower(true)}
         >
             <motion.div
                 style={{
@@ -159,34 +179,18 @@ const PowerButton = ({power, setPower}) => {
                 }}
                 animate={
                     power ?
-                    {
-                        backgroundColor: "var(--primary)",
-                        width: [7,13, 0,0],
-                    }
-                    :
-                    hovering ?
-                    {
-                        filter: hovering ? "brightness(0.5)" : "",
-                        width: [15, 7]
-                    }
+                    clickedAnimation
                     :
                     {
-                        width: [15, 7]
+                        width: [20, 7],
+                        transition: {
+                            duration: 0.6,
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                        }
                     }
                 }
-                transition={
-                    power ?
-                    {
-                        duration: 0.6,
-                        ease: easeOut
-                    }
-                    :
-                    {
-                        duration: 0.6,
-                        repeat: Infinity,
-                        repeatType: "reverse"
-                    }
-                }
+
             />
             <motion.div
                 style={{
@@ -267,7 +271,7 @@ const ReturnButton = ({stats, page, setPage, fadeOutAnimation}) => {
                 }}
             >
                 <svg width="25" height="25" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21.2879 3.08709C21.654 3.4532 21.654 4.0468 21.2879 4.41291L10.7008 15L21.2879 25.5871C21.654 25.9532 21.654 26.5468 21.2879 26.9129C20.9218 27.279 20.3282 27.279 19.9621 26.9129L8.71209 15.6629C8.34597 15.2968 8.34597 14.7032 8.71209 14.3371L19.9621 3.08709C20.3282 2.72097 20.9218 2.72097 21.2879 3.08709Z" fill="var(--secondary)"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M21.2879 3.08709C21.654 3.4532 21.654 4.0468 21.2879 4.41291L10.7008 15L21.2879 25.5871C21.654 25.9532 21.654 26.5468 21.2879 26.9129C20.9218 27.279 20.3282 27.279 19.9621 26.9129L8.71209 15.6629C8.34597 15.2968 8.34597 14.7032 8.71209 14.3371L19.9621 3.08709C20.3282 2.72097 20.9218 2.72097 21.2879 3.08709Z" fill="var(--secondary)"/>
                 </svg>
 
             </motion.div>
@@ -327,9 +331,7 @@ const Heading = ({title, fadeOutAnimation, page}) => {
                 position: "absolute",
                 left: "36px",
                 top: "82px",
-                background: "linear-gradient(to right, #18A0FB, #7B00F6)",
-                backgroundClip: "text",
-                color: "transparent",
+                color: "var(--white-text)",
                 width: 300
             }}
             animate={
@@ -403,8 +405,8 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
                 onClick={() => window.open(page.source)}
             > 
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.44602 3.82812C9.44602 3.52609 9.20118 3.28125 8.89915 3.28125H1.64062C0.734532 3.28125 0 4.01578 0 4.92188V15.8594C0 16.7655 0.734533 17.5 1.64062 17.5H12.5781C13.4842 17.5 14.2188 16.7655 14.2188 15.8594V8.60085C14.2188 8.29882 13.9739 8.05398 13.6719 8.05398C13.3698 8.05398 13.125 8.29882 13.125 8.60085V15.8594C13.125 16.1614 12.8802 16.4062 12.5781 16.4062H1.64062C1.33859 16.4062 1.09375 16.1614 1.09375 15.8594V4.92188C1.09375 4.61984 1.33859 4.375 1.64062 4.375H8.89915C9.20118 4.375 9.44602 4.13016 9.44602 3.82812Z" fill="#0591DE"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.5 0.546875C17.5 0.244844 17.2552 0 16.9531 0H11.4844C11.1823 0 10.9375 0.244844 10.9375 0.546875C10.9375 0.848906 11.1823 1.09375 11.4844 1.09375H15.6329L6.72268 10.0039C6.50911 10.2175 6.50911 10.5638 6.72268 10.7773C6.93624 10.9909 7.28251 10.9909 7.49607 10.7773L16.4062 1.86715V6.01562C16.4062 6.31766 16.6511 6.5625 16.9531 6.5625C17.2552 6.5625 17.5 6.31766 17.5 6.01562V0.546875Z" fill="#0591DE"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M9.44602 3.82812C9.44602 3.52609 9.20118 3.28125 8.89915 3.28125H1.64062C0.734532 3.28125 0 4.01578 0 4.92188V15.8594C0 16.7655 0.734533 17.5 1.64062 17.5H12.5781C13.4842 17.5 14.2188 16.7655 14.2188 15.8594V8.60085C14.2188 8.29882 13.9739 8.05398 13.6719 8.05398C13.3698 8.05398 13.125 8.29882 13.125 8.60085V15.8594C13.125 16.1614 12.8802 16.4062 12.5781 16.4062H1.64062C1.33859 16.4062 1.09375 16.1614 1.09375 15.8594V4.92188C1.09375 4.61984 1.33859 4.375 1.64062 4.375H8.89915C9.20118 4.375 9.44602 4.13016 9.44602 3.82812Z" fill="#0591DE"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M17.5 0.546875C17.5 0.244844 17.2552 0 16.9531 0H11.4844C11.1823 0 10.9375 0.244844 10.9375 0.546875C10.9375 0.848906 11.1823 1.09375 11.4844 1.09375H15.6329L6.72268 10.0039C6.50911 10.2175 6.50911 10.5638 6.72268 10.7773C6.93624 10.9909 7.28251 10.9909 7.49607 10.7773L16.4062 1.86715V6.01562C16.4062 6.31766 16.6511 6.5625 16.9531 6.5625C17.2552 6.5625 17.5 6.31766 17.5 6.01562V0.546875Z" fill="#0591DE"/>
                 </svg>
             </motion.button>
             
