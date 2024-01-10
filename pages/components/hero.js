@@ -93,7 +93,7 @@ const Animation = () => {
             }}
             animate={{
                 scale: [0.5,1.025, 1],
-                opacity: [0,0.33,1, 0.5],
+                opacity: [0,1, 0.5],
                 ease: easeOut
             }}
             transition={{
