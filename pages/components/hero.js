@@ -93,11 +93,11 @@ const Animation = () => {
             }}
             animate={{
                 scale: [0.5,1.025, 1],
-                opacity: [0,1],
+                opacity: [0,0.33,1, 0.5],
                 ease: easeOut
             }}
             transition={{
-                duration: 1
+                duration: 1.6
             }}
         >
         <svg width="350" height="362" viewBox="0 0 350 362" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -116,9 +116,7 @@ const Animation = () => {
                     
                 }}
                 transition={{
-                    duration: durationCircle,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    duration: durationCircle
                 }}
             />
     
@@ -135,9 +133,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle,
-                    delay: durationStroke - 0.5,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: durationStroke - 0.5
                 }}
             />
 
@@ -155,9 +151,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle,
-                    delay: durationStroke * 2 - 1.2,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: durationStroke * 2 - 1.2
                 }}
             />
 
@@ -171,7 +165,7 @@ const Animation = () => {
 
                 animate={{
                     pathLength: [0,1],
-                    opacity: [0,1,1,0]
+                    opacity: [0,1]
                 }}
                 transition={{
                     duration: durationStroke
@@ -187,11 +181,10 @@ const Animation = () => {
 
                 animate={{
                     pathLength: [0,1],
-                    opacity: [0,1,1,0]
+                    opacity: [0,1]
                 }}
                 transition={{
-                    duration: durationStroke,
-                    delay: durationCircle - 0.2
+                    duration: durationStroke
                 }}
             />
 
@@ -213,9 +206,7 @@ const Animation = () => {
                     rotate: 360
                 }}
                 transition={{
-                    duration: durationCircle,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    duration: durationCircle
                 }}
             />
             {/* Border Outer Circle 1 */}
@@ -229,8 +220,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle + 0.1,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: 0.1
                 }}
             />
 
@@ -246,9 +236,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle,
-                    delay: durationStroke - 0.5,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: durationStroke - 0.5
                 }}
             />
             {/* Border Outer Circle 2 */}
@@ -262,9 +250,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle + 0.1,
-                    delay: durationStroke - 0.5,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: durationStroke - 0.4,
                 }}
             />
 
@@ -280,9 +266,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle+0.1,
-                    delay: (durationStroke * 2) - 1.2,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: (durationStroke * 2) - 1.2
                 }}
             />
             {/* Border Outer Circle 3 */}
@@ -296,9 +280,7 @@ const Animation = () => {
                 }}
                 transition={{
                     duration: durationCircle + 0.1,
-                    delay: (durationStroke * 2) - 1.2,
-                    repeat: 1,
-                    repeatType: "reverse"
+                    delay: (durationStroke * 2) - 1.1
                 }}
             />
         </svg>
