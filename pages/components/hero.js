@@ -3,7 +3,15 @@ import { MotionConfig, MotionValue, easeInOut, easeOut, motion } from "framer-mo
 
 const Hero = () => {
     return (
-        <div className={styles.hero}>
+        <motion.div className={styles.hero}
+        
+        whileInView={{
+            opacity: [0,1],
+            scale: [0.9,1.0125,1],
+            transition: {
+                duration: 1.1
+            }
+        }}>
 
 
 
@@ -73,7 +81,7 @@ const Hero = () => {
 
             <Animation/>
         
-      </div>
+      </motion.div>
     )
 }
 
