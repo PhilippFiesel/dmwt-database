@@ -612,6 +612,19 @@ const ArrowLeft = ({weight}) => {
     )
 }
 const ResultScreen = () => {
+    const DetermineCategory = ( value ) => {
+        if (value >= 9) {
+            return  {"category":"High", "text":"It's regrettable that your carbon footprint is higher than average. Your current CO2 emissions are XX percent above the average. Use this as motivation to continue improving and making a positive impact on the environment. Keep going!"};
+        } 
+        if (value <= 5) {
+            return {"category":"Low", "text":"Congratulations! Your environmentally friendly actions are admirable. Your current CO2 emissions are XX percent below the average. Keep it up and continue making a positive impact on our environment!"};
+        } 
+        if (value >5 && value < 9){
+            return {"category":"Middle", "text":"Your carbon footprint is medium. Your current CO2 emissions are XX percent above/below the average. Use this as motivation to continue improving and making a positive impact on the environment. Keep going!"};
+        }
+    };
+
+
     const Result_Heading = () => {
         return (
             <motion.h3
@@ -681,6 +694,7 @@ const ResultScreen = () => {
             <Result_Heading/>
             <Result_Value/>
             <Average_Result/>
+            {DetermineCategory(weight)}
         </motion.div>
     )
 }
