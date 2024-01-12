@@ -25,7 +25,7 @@ const Questioneer = () => {
     const [submitFadeOut, setSubmitFadeOut] = useState(false);
     const [showResultScreen, setResultScreen] = useState(false);
 ;
-    if (!data) return <div>NULL</div>; // TODO maybe loading screen?
+    if (!data) return ""; // TODO maybe loading screen?
     const {title: questionTitle, type: questionType} = data.questions[currentPage];
 
 
@@ -629,16 +629,22 @@ const ArrowLeft = ({weight}) => {
 const ResultScreen = ({setResultsIn, weight}) => {
     // fetch average result from database
     const average = getAvgFromDB();
+    var color = "";
 
     const DetermineCategory = ( value ) => {
+        const x = 16;
+
         if (value >= 9) {
-            return  {"category":"High", "text":"It's regrettable that your carbon footprint is higher than average. Your current CO2 emissions are XX percent above the average. Use this as motivation to continue improving and making a positive impact on the environment. Keep going!"};
+            color = "var(--danger)";
+            return  {"category":"High", "text":`You are ${x} % above the average`};
         } 
         if (value <= 5) {
-            return {"category":"Low", "text":"Congratulations! Your environmentally friendly actions are admirable. Your current CO2 emissions are XX percent below the average. Keep it up and continue making a positive impact on our environment!"};
+            color = "var(--success)";
+            return {"category":"Low", "text":`You are ${x} % below the average`};
         } 
         if (value >5 && value < 9){
-            return {"category":"Middle", "text":"Your carbon footprint is medium. Your current CO2 emissions are XX percent above/below the average. Use this as motivation to continue improving and making a positive impact on the environment. Keep going!"};
+            color = "var(--attention)";
+            return {"category":"Medium", "text":`You are ${x} % above/below the average`};
         }
     };
 
@@ -648,28 +654,40 @@ const ResultScreen = ({setResultsIn, weight}) => {
         backgroundColor: "var(--box-fill-bright",
         width: "80%",
         height: 80,
-        borderRadius: 18
+        borderRadius: 18,
+        display: "flex",
+        alignItems: "center"
     }
     const style_heading = {
-        width: "fit-content",
-        textIndent: 20,
-        background: "linear-gradient(to right, var(--secondary), var(--special)",
-        WebkitBackgroundClip: "text",
-        color: "transparent"
+        marginTop: 0,
+        width: "45%",
+        left: 20,
+        color: "white",
+        position: "absolute",
+        fontSize: 20
     }
     const style_value = {
-        position: "absolute",
-        left: 0,
-        textIndent: 30,
         fontSize: 16,
         fontWeight: 800
+    }
+
+    const stye_value_box = {
+        width: 60,
+        height: 60,
+        backgroundColor: "black",
+        position: "absolute",
+        right: 20,
+        borderRadius: 16,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     }
 
     const Your_Result = () => {
         return (
             <div
                 style={{
-                    top: "30%",
+                    top: "17.5%",
                     ...style_box,
                 }}
             >
@@ -678,11 +696,31 @@ const ResultScreen = ({setResultsIn, weight}) => {
                 >
                     Your Emission Score
                 </motion.h3>
-                <motion.h3
-                    style={style_value}
+
+                <motion.div
+                    style={{
+                        position: "absolute",
+                        right : 85,
+                        width: 60,
+                        height: 60,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        y: -5
+                    }}
                 >
-                    {parseFloat(weight).toFixed(2)}
-                </motion.h3>
+                <Battery scale={0.4}/>
+                </motion.div>
+
+                <motion.div
+                    style={stye_value_box}
+                >
+                    <motion.div
+                        style={style_value}
+                    >
+                        {parseFloat(weight).toFixed(2)}
+                    </motion.div>
+                </motion.div>
             </div>
         )
     }
@@ -691,7 +729,7 @@ const ResultScreen = ({setResultsIn, weight}) => {
 
             <div
                 style={{
-                    top: "50%",
+                    top: "35%",
                     ...style_box
                 }}
             >
@@ -700,11 +738,16 @@ const ResultScreen = ({setResultsIn, weight}) => {
                 >
                     Average Emission Score
                 </motion.h3>
-                <motion.h3
-                    style={style_value}
+
+                <motion.div
+                    style={stye_value_box}
                 >
-                    {average}
-                </motion.h3>
+                    <motion.div
+                        style={style_value}
+                    >
+                        {average}
+                    </motion.div>
+                </motion.div>
             </div>
         )
     }
@@ -722,28 +765,24 @@ const ResultScreen = ({setResultsIn, weight}) => {
             </motion.h3>
         )
     }
-    const Battery = () => {
+    const Battery = ({scale}) => {
+        const high = 14;
 
-        const low = 4;
-        const high = 13;
-
-        var width = 79 / low * weight;
-        if (weight >= 9) {
-            width = 12;
+        var width = 79 / (high) * weight;
+        if (weight <= 4) {
+            width = 24;
         }
 
         return (
             <motion.div
                 style={{
-                    position: "absolute",
-                    top: "5%",
-                    right: "10%",
-                    y: 10
+                    scale: scale
                 }}
             >
                 <svg width="103" height="54" viewBox="0 0 103 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2.5" y="2.5" width="90" height="49" rx="13.5" stroke="#5F5F5F" stroke-width="5"/>
-                    <rect x="8" y="8" width={width} height="38" rx="8" fill="var(--primary)"/>
+                    <rect x="8" y="8" width="79" height="38" rx="8" fill="var(--box-fill-bright)"/>
+                    <rect x="8" y="8" width={width} height="38" rx="8" fill={color}/>
                     <path d="M97 20V20C100.314 20 103 22.6863 103 26V27C103 30.3137 100.314 33 97 33V33V20Z" fill="#5F5F5F"/>
                 </svg>
                 <motion.div
@@ -752,7 +791,9 @@ const ResultScreen = ({setResultsIn, weight}) => {
                         textAlign: "center",
                         width: 95,
                         y: 12,
-                        x: 1
+                        x: 1,
+                        color: color,
+                        fontSize: 26
                     }}
                 >
                     {DetermineCategory(weight).category}
@@ -766,26 +807,30 @@ const ResultScreen = ({setResultsIn, weight}) => {
                 style={{
                     width: "80%",
                     position: "absolute",
-                    top: "70%",
+                    top: "52.5%",
                     left: "10%",
                     height: 80,
                     borderRadius: 18,
                     backgroundColor: "var(--box-fill-bright)",
-                    display: "flex",
-                    alignItems: "center"
+                    
                 }}
             >
-                <div
+                <h3
                     style={{
-                        width: "80%",
-                        left: "5%",
+                        marginTop: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        width: "90%",
+                        left: 20,
+                        height: "100%",
                         position: "absolute",
-                        height: "fit-content",
                         overflow: "hidden",
+                        color: "white",
+                        fontSize: 20
                     }}
                 >
-                    <h3>You are 16 % above average</h3>
-                </div>
+                    {DetermineCategory(weight).text}
+                </h3>
             </div>
         )
     }
@@ -807,7 +852,6 @@ const ResultScreen = ({setResultsIn, weight}) => {
             }}
             onAnimationComplete={setResultsIn}
         >
-            <Battery/>
             <Result_Heading/>
             <Your_Result/>
             <Average_Result/>

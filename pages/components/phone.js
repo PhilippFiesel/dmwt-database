@@ -332,7 +332,10 @@ const Heading = ({title, fadeOutAnimation, page}) => {
                 left: "36px",
                 top: "82px",
                 color: "var(--white-text)",
-                width: 300
+                width: 300,
+                background: "linear-gradient(to right, var(--secondary), var(--special)",
+                WebkitBackgroundClip: "text",
+                color: "transparent"
             }}
             animate={
                 fadeOutAnimation == false ?
@@ -363,7 +366,7 @@ const BarChart = ({page, setFadeOutAnimation, fadeOutAnimation}) => {
                 width: "246.15px",
                 position: "absolute",
                 top: "146.7px",
-                left: "50.4px"
+                left: "50.4px",
             }}
         >
             {
