@@ -49,6 +49,7 @@
     position: absolute;
     right: 10%;
     bottom: 25px;
+    text-shadow: 0px 0px 10px black;
 }
 
 .TextField {

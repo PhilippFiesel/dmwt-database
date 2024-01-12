@@ -176,12 +176,13 @@ const Form = ({setFormOpen}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setSubmitClicked(true);
 
         //If a field hasnt been filled out, it wont be sent to the database
         if (email.trim() === "" || lastname.trim() === "" || firstname.trim() === "" || message.trim() === "") {
             return;
         }
+
+        setSubmitClicked(true);
 
         const newContact = {
             email: email,
@@ -239,7 +240,7 @@ const Form = ({setFormOpen}) => {
                     isEmpty={submitClicked && message.trim() === ""}
                 />
 
-                <SubmitButton />
+                <SubmitButton submitClicked={submitClicked}/>
             </form>
         </motion.div>
     )
@@ -272,8 +273,8 @@ const SubmitButton = ({submitClicked}) => {
           className={contactCSS.SubmitButton}
           type="submit"
           variants={buttonVariants}
-          animate={submitClicked ? 'submitting' : 'normal'}
-          whileHover="hover"
+          animate={submitClicked ? buttonVariants.submitting : buttonVariants.normal}
+          whileHover={buttonVariants.hover}
         >
           {submitClicked ? 'Submitted' : 'Submit'}
         </motion.button>
