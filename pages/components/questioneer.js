@@ -632,19 +632,22 @@ const ResultScreen = ({setResultsIn, weight}) => {
     var color = "";
 
     const DetermineCategory = ( value ) => {
-        const x = 16;
+
+        const isAboveAverage = value > average;
+        const aboveOrBelow = isAboveAverage ? "above" : "below";
+        const differencePercent = Math.abs((value / average * 100) - 100).toFixed(2)
 
         if (value >= 9) {
             color = "var(--danger)";
-            return  {"category":"High", "text":`You are ${x} % above the average`};
+            return  {"category":"High", "text":`You are ${differencePercent} % ${aboveOrBelow} the average`};
         } 
         if (value <= 5) {
             color = "var(--success)";
-            return {"category":"Low", "text":`You are ${x} % below the average`};
+            return {"category":"Low", "text":`You are ${differencePercent} % ${aboveOrBelow} the average`};
         } 
         if (value >5 && value < 9){
             color = "var(--attention)";
-            return {"category":"Medium", "text":`You are ${x} % above/below the average`};
+            return {"category":"Medium", "text":`You are ${differencePercent} % ${aboveOrBelow} the average`};
         }
     };
 
@@ -660,11 +663,12 @@ const ResultScreen = ({setResultsIn, weight}) => {
     }
     const style_heading = {
         marginTop: 0,
-        width: "45%",
+        width: "47.5%",
         left: 20,
         color: "white",
         position: "absolute",
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 800
     }
     const style_value = {
         fontSize: 16,
@@ -709,7 +713,21 @@ const ResultScreen = ({setResultsIn, weight}) => {
                         y: -5
                     }}
                 >
-                <Battery scale={0.4}/>
+                    <Battery scale={0.4}/>
+                    <motion.div
+                    style={{
+                        position: "absolute",
+                        textAlign: "center",
+                        width: 95,
+                        fontWeight: 800,
+                        color: color,
+                        fontSize: 14,
+                        y: 25,
+                        x: -1
+                    }}
+                >
+                    {DetermineCategory(weight).category}
+                </motion.div>
                 </motion.div>
 
                 <motion.div
@@ -780,24 +798,12 @@ const ResultScreen = ({setResultsIn, weight}) => {
                 }}
             >
                 <svg width="103" height="54" viewBox="0 0 103 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="2.5" width="90" height="49" rx="13.5" stroke="#5F5F5F" stroke-width="5"/>
+                    <rect x="2.5" y="2.5" width="90" height="49" rx="13.5" stroke="var(--neutral-text)" stroke-width="5"/>
                     <rect x="8" y="8" width="79" height="38" rx="8" fill="var(--box-fill-bright)"/>
                     <rect x="8" y="8" width={width} height="38" rx="8" fill={color}/>
-                    <path d="M97 20V20C100.314 20 103 22.6863 103 26V27C103 30.3137 100.314 33 97 33V33V20Z" fill="#5F5F5F"/>
+                    <path d="M97 20V20C100.314 20 103 22.6863 103 26V27C103 30.3137 100.314 33 97 33V33V20Z" fill="var(--neutral-text)"/>
                 </svg>
-                <motion.div
-                    style={{
-                        position: "absolute",
-                        textAlign: "center",
-                        width: 95,
-                        y: 12,
-                        x: 1,
-                        color: color,
-                        fontSize: 26
-                    }}
-                >
-                    {DetermineCategory(weight).category}
-                </motion.div>
+                
             </motion.div>
         )
     }
@@ -826,7 +832,11 @@ const ResultScreen = ({setResultsIn, weight}) => {
                         position: "absolute",
                         overflow: "hidden",
                         color: "white",
-                        fontSize: 20
+                        fontSize: 20,
+                        fontWeight: 800,
+                        background: "linear-gradient(to right, var(--secondary), var(--special))",
+                        color: "transparent",
+                        WebkitBackgroundClip: "text"
                     }}
                 >
                     {DetermineCategory(weight).text}
