@@ -20,6 +20,7 @@ const Questioneer = () => {
     const [submitAnimation, setSubmitAnimation] = useState(false);
     const [submitted, setSubmit] = useState(false);
     const [successfulTransfer, setSuccessfulTransfer] = useState(false);
+    const [resultsAreIn, setResultsIn] = useState(false);
 
     const [submitFadeOut, setSubmitFadeOut] = useState(false);
     const [showResultScreen, setResultScreen] = useState(false);
@@ -68,7 +69,6 @@ const Questioneer = () => {
             }
 
             if (currentPage == data.questions.length - 2) {
-                console.log(onLastPage);
                 setSubmitAnimation(true);
             }
     
@@ -213,11 +213,16 @@ const Questioneer = () => {
                     submitted={submitted}
                     successfulTransfer={successfulTransfer}
                     showResultScreen={showResultScreen}
+                    resultsAreIn={resultsAreIn}
                 />
 
                 {
                     showResultScreen ?
-                    <ResultScreen  weight={weight}/> : ""
+                    <ResultScreen
+                        weight={weight}
+                        setResultsIn={() => setResultsIn(true)}
+                        data={data}
+                    /> : ""
                 }
 
             </QuestioneerBox>
@@ -462,13 +467,12 @@ const NextButton = ({onClick, errorState, submitAnimation}) => {
         </motion.div>
     )
 }
-const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,showResultScreen}) => {
+const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,resultsAreIn}) => {
 
 
     const relation = ((currentPage) / amountPages)*-1;
 
     var loadingAnimation = {};
-    var fadeOutAnimation = {};
 
     if (submitted) {
         if (successfulTransfer) {
@@ -530,15 +534,25 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,
                 justifyContent: 'center',
                 alignItems: 'center'
             }}
-            animate={ submitted ? {
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%) scale(1.35)",
-                transition:{
-                    duration: 0.4,
-                    ease: easeOut
+            animate={
+                submitted ?
+                !resultsAreIn ?
+                {
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%) scale(1.35)",
+                    transition:{
+                        duration: 0.4,
+                        ease: easeOut
+                    }
                 }
-            } : {}}
+                :
+                {
+                    opacity: [1.1, 0]
+                }
+                :
+                {}
+            }
         >
             <svg width="52" height="52">
                 <path
@@ -627,49 +641,111 @@ const ResultScreen = () => {
 
     const Result_Heading = () => {
         return (
-            <motion.h3
+            <div
                 style={{
-                    width: "fit-content",
-                    height: "fit-content",
-                    background: "linear-gradient(to right, #18A0FB, #7B00F6)",
-                    backgroundClip: "text",
-                    color: "transparent",   
-                }}
-            >
-                Your Result
-            </motion.h3>
-        )
-    }
-    const Result_Value = () => {
-        return (
-            <motion.div
-                style={{
-                }}
-            >
-                {weight}
-            </motion.div>
-        )
-    }
-    const Average_Result = () => {
-        const value = getAvgFromDatabase();
-
-        return (
-            <motion.div
-                style={{
-                    marginTop: "35%",
+                    position: "absolute",
+                    left: "10%",
+                    top: "30%",
                 }}
             >
                 <motion.h3
                     style={{
-                        background: "linear-gradient(to right, #18A0FB, #7B00F6)",
-                        backgroundClip: "text",
-                        color: "transparent", 
+                        color: "var(--primary)",
+                        width: "fit-content"
                     }}
                 >
-                    Average Result
+                    You
                 </motion.h3>
-                <motion.div>
-                    {value}
+                <motion.h3
+                    style={{
+                        position: "absolute",
+                        left: 0
+                    }}
+                >
+                    {parseFloat(weight).toFixed(2)}
+                </motion.h3>
+            </div>
+        )
+    }
+    const Average_Result = () => {
+        
+        // fetch average result from database
+        const average = getAvgFromDB();
+
+        return (
+
+            <div
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "10%"
+                }}
+            >
+                <motion.h3
+                    style={{
+                        color: "var(--secondary)"
+                    }}
+                >
+                    Average
+                </motion.h3>
+                <motion.h3
+                    style={{
+                        position: "absolute"
+                    }}
+                >
+                    {average}
+                </motion.h3>
+            </div>
+        )
+    }
+    const Results_Heading = () => {
+        return (
+            <motion.h3
+                style={{
+                    height: 49,
+                    position: "absolute",
+                    top: "5%",
+                    left: "5%"
+                }}
+            >
+                Emission Score
+            </motion.h3>
+        )
+    }
+    const Battery = () => {
+
+        const low = 4;
+        const high = 13;
+
+        var width = 79 / low * weight;
+        if (weight >= 9) {
+            width = 12;
+        }
+
+        return (
+            <motion.div
+                style={{
+                    position: "absolute",
+                    top: "5%",
+                    right: "5%",
+                    y: 10
+                }}
+            >
+                <svg width="103" height="54" viewBox="0 0 103 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2.5" y="2.5" width="90" height="49" rx="13.5" stroke="#5F5F5F" stroke-width="5"/>
+                    <rect x="8" y="8" width={width} height="38" rx="8" fill="var(--primary)"/>
+                    <path d="M97 20V20C100.314 20 103 22.6863 103 26V27C103 30.3137 100.314 33 97 33V33V20Z" fill="#5F5F5F"/>
+                </svg>
+                <motion.div
+                    style={{
+                        position: "absolute",
+                        textAlign: "center",
+                        width: 95,
+                        y: 12,
+                        x: 1
+                    }}
+                >
+                    Medium
                 </motion.div>
             </motion.div>
         )
@@ -678,9 +754,9 @@ const ResultScreen = () => {
     return (
         <motion.div
             style={{
-                position: "absolute",
-                top: "5%",
-                left: "5%",
+                position: "relative",
+                width: "100%",
+                height: "100%",
                 opacity: 0
             }}
             animate={{
@@ -690,9 +766,11 @@ const ResultScreen = () => {
                 duration: 1,
                 delay: 1
             }}
+            onAnimationComplete={setResultsIn}
         >
-            <Result_Heading/>
-            <Result_Value/>
+            <Battery/>
+            <Results_Heading/>
+            <Your_Result/>
             <Average_Result/>
             {DetermineCategory(weight)}
         </motion.div>
@@ -709,20 +787,22 @@ const handleSubmit = async (weight, setSuccessfulTransfer, setResultScreen) => {
     setSuccessfulTransfer(true);
     setResultScreen(true)
 }
-const getAvgFromDatabase = () => {
-    const [average, setAverage] = useState(null);
-  
+const getAvgFromDB = () => {
+    const [average, setAverage] = useState();
+
     const fetchData = async () => {
       try {
         const response = await fetch('../api/questioneerresult', {method:'GET'});
         const data = await response.json(); 
         setAverage(data.average);
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Error fetching average:', error);
       }
     };
-  
+
     fetchData();
+
     return parseFloat(average).toFixed(2);
 }
 

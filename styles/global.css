@@ -6,7 +6,7 @@
   --special: rgb(123, 0, 246);
 
   --success: #22F268;
-  --danger: #F5372C;
+  --danger: #FF4444;
   --attention: #E6DD20;
   --info: #18A0FB;
 
@@ -22,7 +22,6 @@
   --phone-blur: rgba(57, 255, 123, 0.2);
   --phone-appicon: #082438;
   
-
   --background: #000000;
 }
 
