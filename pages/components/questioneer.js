@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from '../../styles/Home.module.css';
 import {animate, delay, easeIn, easeInOut, easeOut, motion, spring, wrap} from "framer-motion"
 
-var weight = 0;
+
 var answerAnimation;
 var width = 0;
 
@@ -16,11 +16,11 @@ const Questioneer = () => {
     const [nextError, setNextError] = useState(false); // error states
 
     const [fadeOutAnimation, setFadeOutAnimation] = useState(false);
-
     const [submitAnimation, setSubmitAnimation] = useState(false);
     const [submitted, setSubmit] = useState(false);
     const [successfulTransfer, setSuccessfulTransfer] = useState(false);
     const [resultsAreIn, setResultsIn] = useState(false);
+    const weight = useRef(0);
 
     const [submitFadeOut, setSubmitFadeOut] = useState(false);
     const [showResultScreen, setResultScreen] = useState(false);
@@ -75,7 +75,7 @@ const Questioneer = () => {
             else if (onLastPage) {
                 // submit to database
                 setSubmit(true);
-                handleSubmit(weight, setSuccessfulTransfer, setResultScreen);
+                handleSubmit(weight.current, setSuccessfulTransfer, setResultScreen);
             }
         }
         else {
@@ -135,29 +135,29 @@ const Questioneer = () => {
                                 // set all to off except the clicked one
                                 updatedActive[currentPage].map((inner, index) => {
                                     if (inner == true) {
-                                        weight = weight - data.questions[currentPage].answers[index].weight;
+                                        weight.current = weight.current - data.questions[currentPage].answers[index].weight;
                                     }
                                     if (index != buttonID) {
                                         updatedActive[currentPage][index] = false;
                                     }
                                 })
-                                
+
                                 updatedActive[currentPage][buttonID] = !updatedActive[currentPage][buttonID];
                             }
-
                             // multiple choice
                             else if (questionType == "multiple_choice") {
                                 updatedActive[currentPage][buttonID] = !updatedActive[currentPage][buttonID];
+                                // increase or decrease weight of question
+                                
+                                if (updatedActive[currentPage][buttonID] == false) {
+                                    weight.current = weight.current - button.weight;
+                                } 
                             }
 
-                            // increase or decrease weight of question
                             if (updatedActive[currentPage][buttonID] == true) {
-                                weight = weight + button.weight;
+                                weight.current = weight.current + button.weight;
                                 setNextError(false);
                             }
-                            else {
-                                weight = weight - button.weight;
-                            }   
 
                             // render updated state
                             setActive(updatedActive);
@@ -216,10 +216,12 @@ const Questioneer = () => {
                     resultsAreIn={resultsAreIn}
                 />
 
+                <ErrorMessage nextError={nextError} />
+
                 {
                     showResultScreen ?
                     <ResultScreen
-                        weight={weight}
+                        weight={weight.current}
                         setResultsIn={() => setResultsIn(true)}
                         data={data}
                     /> : ""
@@ -538,9 +540,7 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,
                 submitted ?
                 !resultsAreIn ?
                 {
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%) scale(1.35)",
+                    transform: "translate(-0%, -0%) scale(1.35)",
                     transition:{
                         duration: 0.4,
                         ease: easeOut
@@ -548,7 +548,8 @@ const PageIndicator = ({currentPage, amountPages, submitted, successfulTransfer,
                 }
                 :
                 {
-                    opacity: [1.1, 0]
+                    opacity: [1, 0],
+                    transform: "translate(-0%, -0%)"
                 }
                 :
                 {}
@@ -625,7 +626,10 @@ const ArrowLeft = ({weight}) => {
         </svg>
     )
 }
-const ResultScreen = () => {
+const ResultScreen = ({setResultsIn, weight}) => {
+    // fetch average result from database
+    const average = getAvgFromDB();
+
     const DetermineCategory = ( value ) => {
         if (value >= 9) {
             return  {"category":"High", "text":"It's regrettable that your carbon footprint is higher than average. Your current CO2 emissions are XX percent above the average. Use this as motivation to continue improving and making a positive impact on the environment. Keep going!"};
@@ -638,29 +642,44 @@ const ResultScreen = () => {
         }
     };
 
+    const style_box = {
+        position: "absolute",
+        left: "10%",
+        backgroundColor: "var(--box-fill-bright",
+        width: "80%",
+        height: 80,
+        borderRadius: 18
+    }
+    const style_heading = {
+        width: "fit-content",
+        textIndent: 20,
+        background: "linear-gradient(to right, var(--secondary), var(--special)",
+        WebkitBackgroundClip: "text",
+        color: "transparent"
+    }
+    const style_value = {
+        position: "absolute",
+        left: 0,
+        textIndent: 30,
+        fontSize: 16,
+        fontWeight: 800
+    }
 
-    const Result_Heading = () => {
+    const Your_Result = () => {
         return (
             <div
                 style={{
-                    position: "absolute",
-                    left: "10%",
                     top: "30%",
+                    ...style_box,
                 }}
             >
                 <motion.h3
-                    style={{
-                        color: "var(--primary)",
-                        width: "fit-content"
-                    }}
+                    style={style_heading}
                 >
-                    You
+                    Your Emission Score
                 </motion.h3>
                 <motion.h3
-                    style={{
-                        position: "absolute",
-                        left: 0
-                    }}
+                    style={style_value}
                 >
                     {parseFloat(weight).toFixed(2)}
                 </motion.h3>
@@ -668,37 +687,28 @@ const ResultScreen = () => {
         )
     }
     const Average_Result = () => {
-        
-        // fetch average result from database
-        const average = getAvgFromDB();
-
         return (
 
             <div
                 style={{
-                    position: "absolute",
                     top: "50%",
-                    left: "10%"
+                    ...style_box
                 }}
             >
                 <motion.h3
-                    style={{
-                        color: "var(--secondary)"
-                    }}
+                    style={style_heading}
                 >
-                    Average
+                    Average Emission Score
                 </motion.h3>
                 <motion.h3
-                    style={{
-                        position: "absolute"
-                    }}
+                    style={style_value}
                 >
                     {average}
                 </motion.h3>
             </div>
         )
     }
-    const Results_Heading = () => {
+    const Result_Heading = () => {
         return (
             <motion.h3
                 style={{
@@ -708,7 +718,7 @@ const ResultScreen = () => {
                     left: "5%"
                 }}
             >
-                Emission Score
+                Questioneer Results
             </motion.h3>
         )
     }
@@ -727,7 +737,7 @@ const ResultScreen = () => {
                 style={{
                     position: "absolute",
                     top: "5%",
-                    right: "5%",
+                    right: "10%",
                     y: 10
                 }}
             >
@@ -745,9 +755,38 @@ const ResultScreen = () => {
                         x: 1
                     }}
                 >
-                    Medium
+                    {DetermineCategory(weight).category}
                 </motion.div>
             </motion.div>
+        )
+    }
+    const Result_Text = () => {
+        return (
+            <div
+                style={{
+                    width: "80%",
+                    position: "absolute",
+                    top: "70%",
+                    left: "10%",
+                    height: 80,
+                    borderRadius: 18,
+                    backgroundColor: "var(--box-fill-bright)",
+                    display: "flex",
+                    alignItems: "center"
+                }}
+            >
+                <div
+                    style={{
+                        width: "80%",
+                        left: "5%",
+                        position: "absolute",
+                        height: "fit-content",
+                        overflow: "hidden",
+                    }}
+                >
+                    <h3>You are 16 % above average</h3>
+                </div>
+            </div>
         )
     }
 
@@ -769,10 +808,53 @@ const ResultScreen = () => {
             onAnimationComplete={setResultsIn}
         >
             <Battery/>
-            <Results_Heading/>
+            <Result_Heading/>
             <Your_Result/>
             <Average_Result/>
-            {DetermineCategory(weight)}
+            <Result_Text/>
+        </motion.div>
+    )
+}
+const ErrorMessage = ({nextError}) => {
+    var animation = {};
+    var transition = {};
+
+    if (nextError) {
+        animation = {
+            opacity: [0,1],
+            x: [-25, 3, 0],
+            y: [3, 0],
+            filter: ["blur(5px)","blur(0px)", "blur(0px)"],
+            scaleY: [0.5, 1]
+        }
+        transition = {
+            duration: 0.6
+        }
+    }
+    else {
+        animation = {
+            opacity: 0
+        }
+        transition = {
+            duration: 0.3
+        }
+    }
+
+
+    return (
+        <motion.div
+            style={{
+                color: "var(--attention)",
+                position: "absolute",
+                left: "10%",
+                bottom: 95,
+                opacity: 0,
+                userSelect: "none"
+            }}
+            animate={animation}
+            transition={transition}
+        >
+            {"Please select at least one answer :)"}
         </motion.div>
     )
 }
