@@ -254,10 +254,11 @@ const ReturnButton = ({stats, page, setPage, fadeOutAnimation}) => {
             }}
             onClick={setPage}
             animate={{
-                opacity: [0,0,1],
-                scale: [0,1],
-                x: ["-50%", "0%"],
-                y: [50,0],
+                opacity: [0,1],
+                scale: [0.5,1],
+                filter: ["blur(6px)", "blur(6px)","blur(0px)"],
+                x: [-100, 5, 0],
+                y: [50,5,0],
                 transition: {duration: 0.6, ease: easeOut}
             }}
         >
@@ -311,7 +312,8 @@ const PhoneBox = ({children}) => {
                 justifyContent: "center",
                 position: "relative",
                 opacity: 0,
-                scale: 0.9
+                scale: 0.9,
+                overflow: "hidden"
             }}
             whileInView={{
                 opacity: 1,
@@ -513,7 +515,7 @@ const Bar = ({value, maxValue, index, setFadeOutAnimation, fadeOutAnimation}) =>
             <motion.div 
                 style={{
                     width: "52px",
-                    fontSize: "11px",
+                    fontSize: 14,
                     position: "relative",
                     marginLeft: 5,
                     opacity: 0,

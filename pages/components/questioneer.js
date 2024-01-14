@@ -663,22 +663,23 @@ const ResultScreen = ({setResultsIn, weight}) => {
     }
     const style_heading = {
         marginTop: 0,
-        width: "47.5%",
+        width: "50%",
         left: 20,
         color: "white",
         position: "absolute",
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 800
     }
     const style_value = {
         fontSize: 16,
-        fontWeight: 800
+        fontWeight: 800,
     }
 
     const stye_value_box = {
         width: 60,
         height: 60,
-        backgroundColor: "black",
+        backgroundColor: "var(--box-fill)",
+        boxShadow: "0 0 20px 1px rgba(255,255,255, 0.05)",
         position: "absolute",
         right: 20,
         borderRadius: 16,
@@ -720,7 +721,7 @@ const ResultScreen = ({setResultsIn, weight}) => {
                         textAlign: "center",
                         width: 95,
                         fontWeight: 800,
-                        color: color,
+                        color: "white",
                         fontSize: 14,
                         y: 25,
                         x: -1
@@ -734,7 +735,10 @@ const ResultScreen = ({setResultsIn, weight}) => {
                     style={stye_value_box}
                 >
                     <motion.div
-                        style={style_value}
+                        style={{
+                            ...style_value,
+                            color: "var(--primary)"
+                        }}
                     >
                         {parseFloat(weight).toFixed(2)}
                     </motion.div>
@@ -799,8 +803,8 @@ const ResultScreen = ({setResultsIn, weight}) => {
             >
                 <svg width="103" height="54" viewBox="0 0 103 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2.5" y="2.5" width="90" height="49" rx="13.5" stroke="var(--neutral-text)" stroke-width="5"/>
-                    <rect x="8" y="8" width="79" height="38" rx="8" fill="var(--box-fill-bright)"/>
-                    <rect x="8" y="8" width={width} height="38" rx="8" fill={color}/>
+                    <rect x="8" y="8" width="79" height="38" rx="8" fill="var(--box-fill)"/>
+                    <rect x="8" y="8" width={width} height="38" rx="8" fill="var(--primary)"/>
                     <path d="M97 20V20C100.314 20 103 22.6863 103 26V27C103 30.3137 100.314 33 97 33V33V20Z" fill="var(--neutral-text)"/>
                 </svg>
                 
@@ -832,9 +836,9 @@ const ResultScreen = ({setResultsIn, weight}) => {
                         position: "absolute",
                         overflow: "hidden",
                         color: "white",
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: 800,
-                        background: "linear-gradient(to right, var(--secondary), var(--special))",
+                        background: "linear-gradient(to right, var(--secondary), var(--primary))",
                         color: "transparent",
                         WebkitBackgroundClip: "text"
                     }}
